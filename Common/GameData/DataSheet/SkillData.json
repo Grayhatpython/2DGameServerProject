@@ -1,0 +1,23 @@
+{
+    "skills": [
+        {
+            "id": 1,
+            "name": "평타 공격",
+            "coolDown": 0.5,
+            "damage": 10,
+            "skillType": "AutoAttack"
+        },
+        {
+            "id": 2,
+            "name": "파이어볼 공격",
+            "coolDown": 0.5,
+            "damage": 5,
+            "skillType": "ProjectileAttack",
+            "projectileInfo": {
+                "name": "파이어볼",
+                "speed": 20.0,
+                "range": 10
+            }
+        }
+    ]
+} 

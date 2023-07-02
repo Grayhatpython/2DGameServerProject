@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{8a843cf5-bed6-4eb5-a55d-9a8ae5ddbbd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents">
+      <UniqueIdentifier>{e0c90fbd-df3b-4bb9-ac6f-00cc18f08e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{236a6dc8-7c29-4c0d-a5cb-1ed87877a53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Actor">
+      <UniqueIdentifier>{22f1c62a-17ad-44b3-b012-699b66175c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Room">
+      <UniqueIdentifier>{741538d0-1abe-49b8-b1b3-10c3390eed78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Manager">
+      <UniqueIdentifier>{54b0f42d-901a-4bfe-b8b1-ac703dc2d75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Room\Field">
+      <UniqueIdentifier>{a0471512-00d3-4fea-8520-d0f21e4616bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Data">
+      <UniqueIdentifier>{bebf4c8e-a6ca-4869-9f90-a5a649145f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Item">
+      <UniqueIdentifier>{f6b38075-9e4b-4891-b009-88b512b6c835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Room\Zone">
+      <UniqueIdentifier>{b51b70ba-485f-4069-8dca-193f9fb3d0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Room\FieldOfView">
+      <UniqueIdentifier>{b169a44a-b6e2-4228-ae30-f71d17208ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSessionManager.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.pb.cc">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="Struct.pb.cc">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="Enum.pb.cc">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>GameContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>GameContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Region.cpp">
+      <Filter>GameContents\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>GameContents\Room\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="RegionManager.cpp">
+      <Filter>GameContents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>GameContents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>GameContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>GameContents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>GameContents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DBProcess.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>GameContents\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>GameContents\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Zone.cpp">
+      <Filter>GameContents\Room\Zone</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldOfView.cpp">
+      <Filter>GameContents\Room\FieldOfView</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSessionManager.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSession.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.pb.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.pb.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.pb.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServer.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>GameContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>GameContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>GameContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Region.h">
+      <Filter>GameContents\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>GameContents\Room\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>GameContents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RegionManager.h">
+      <Filter>GameContents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>GameContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSheet.h">
+      <Filter>GameContents\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>GameContents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>GameContents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DBProcess.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameContents\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>GameContents\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Zone.h">
+      <Filter>GameContents\Room\Zone</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldOfView.h">
+      <Filter>GameContents\Room\FieldOfView</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Protocol\bin\Protocol.proto">
+      <Filter>Protocol</Filter>
+    </None>
+    <None Include="..\Common\Protocol\bin\GenPackets.bat">
+      <Filter>Protocol</Filter>
+    </None>
+    <None Include="..\Common\Protocol\bin\Enum.proto">
+      <Filter>Protocol</Filter>
+    </None>
+    <None Include="..\Common\Protocol\bin\Struct.proto">
+      <Filter>Protocol</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameServerDB.xml">
+      <Filter>DB</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,192 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+import "Struct.proto";
+
+message L_S_CONNECTED
+{
+	string name = 1;
+}
+
+message L_C_CREATE_ACCOUNT
+{
+	string name = 1;
+	string password = 2;
+}
+
+message L_S_CREATE_ACCOUNT
+{
+	bool createOk = 1;
+}
+
+message L_C_LOGIN_ACCOUNT
+{
+	string name = 1;
+	string password = 2;
+}
+
+message L_S_LOGIN_ACCOUNT
+{
+	bool loginOk = 1;
+	int32 accountId = 2;
+	int32 token = 3;
+	repeated ServerInfo serverInfos = 4;
+}
+
+message S_CONNECTED 
+{
+	string name = 1;
+}
+
+message C_LOGIN
+{
+	string uniqueId = 1;
+}
+
+message S_LOGIN
+{
+	int32 loginOk = 1;
+	repeated LobbyPlayerInfo lobbyPlayers = 2;
+}
+
+message C_CREATE_PLAYER
+{
+	string name = 1;
+}
+
+message S_CREATE_PLAYER
+{
+	int32 createOk = 1;
+	LobbyPlayerInfo createPlayer = 2;
+}
+
+message C_ENTER_GAME
+{
+	string name = 1;
+}
+
+message S_ENTER_GAME
+{
+	ActorInfo player = 1;
+}
+
+message S_LEAVE_GAME
+{
+
+}
+
+message S_ITEM_LIST
+{
+	repeated ItemInfo itemInfos = 1;
+}
+
+message S_ADD_ITEM
+{
+	repeated ItemInfo itemInfos = 1;
+}
+
+message C_EQUIP_ITEM
+{
+	int32	itemDbId = 1;
+	bool	equipped = 2;
+}
+
+message S_EQUIP_ITEM
+{
+	int32	itemDbId = 1;
+	bool	equipped = 2;
+}
+
+message S_SPAWN
+{
+	repeated ActorInfo actors = 1;
+}
+
+message S_DESPAWN
+{
+	repeated int32 actorId = 1;
+}
+
+message C_MOVE
+{
+	PositionInfo positionInfo = 1;
+}
+
+message S_MOVE
+{
+	int32 actorId = 1;
+	PositionInfo positionInfo = 2;
+}
+
+message C_SKILL
+{
+	SkillInfo skillInfo = 1;
+}
+
+message S_SKILL
+{
+	int32 actorId = 1;
+	SkillInfo skillInfo = 2;
+}
+
+message S_CHANGE_HP
+{
+	int32 actorId = 1;
+	int32 hp = 2;
+	//	TODO : Cause
+}
+
+message S_CHANGE_STAT
+{
+	StatInfo statInfo = 1;
+}
+
+message S_DEATH
+{
+	int32 actorId = 1;
+	int32 attackerId = 2;
+}
+
+message C_CHANGE_STATE
+{
+	AIState state = 1;
+}
+
+message S_CHANGE_STATE
+{
+	int32 actorId = 1;
+	AIState state = 2;
+}
+
+message C_CHANGE_MOVE_DIR
+{
+	MoveDir moveDir = 2;
+}
+
+message S_CHANGE_MOVE_DIR
+{
+	int32 actorId = 1;
+	MoveDir moveDir = 2;
+}
+
+message C_CHAT
+{
+	string chat = 1;
+}
+
+message S_CHAT
+{
+	int32 actorId = 1;
+	string chat = 2;
+}
+
+message S_PING
+{
+
+}
+
+message C_PONG
+{
+
+}

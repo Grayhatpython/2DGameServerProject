@@ -1,0 +1,15 @@
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\bin\Release\PacketGenerator.exe
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\bin\Release\PacketGenerator.deps.json
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\bin\Release\PacketGenerator.runtimeconfig.json
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\bin\Release\PacketGenerator.dll
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\bin\Release\PacketGenerator.pdb
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.csproj.AssemblyReference.cache
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.AssemblyInfoInputs.cache
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.AssemblyInfo.cs
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.csproj.CoreCompileInputs.cache
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.dll
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\refint\PacketGenerator.dll
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.pdb
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\PacketGenerator.genruntimeconfig.cache
+C:\Users\Choi\Desktop\SampleGame\Project\Game\Tools\PacketGenerator\obj\Release\ref\PacketGenerator.dll

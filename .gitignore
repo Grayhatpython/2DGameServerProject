@@ -1,0 +1,23 @@
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+# DummyClient obj Files
+DummyClient/x64/**
+
+# GameClient obj Files
+GameClient/x64/**
+
+# GameServer obj Files
+GameServer/x64/**
+
+# LogineServer obj Files
+LoginServer/x64/**
+
+# ServerCore obj Files
+ServerCore/x64/**
+
+# Study obj Files
+Study/x64/**
+
+# Projects build Outputs
+Binary/

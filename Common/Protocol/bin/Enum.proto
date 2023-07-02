@@ -1,0 +1,74 @@
+syntax = "proto3";
+package Protocol;
+
+enum ClientGameState
+{
+	CLIENT_STATE_LOGIN = 0;
+	CLIENT_STATE_LOBBY = 1;
+	CLIENT_STATE_GAME = 2;
+}
+
+enum ActorType
+{
+	NONE = 0;
+	PLAYER = 1;
+	MONSTER = 2;
+	PROJECTILE = 3;
+	EFFECT = 4;
+}
+
+enum AIState
+{
+	IDLE = 0;
+	MOVE = 1;
+	Skill = 2;
+	DEATH = 3;
+}
+
+enum SkillType
+{
+	SKILL_NONE = 0;
+	SKILL_AUTO_ATTACK = 1;
+	SKILL_PROJECTILE_ATTACK = 2;
+}
+
+enum ItemType
+{
+	ITEM_TYPE_NONE = 0;
+	ITEM_TYPE_WEAPON = 1;
+	ITEM_TYPE_ARMOR = 2;
+	ITEM_TYPE_CONSUMABLE = 3;
+}
+
+enum WeaponType
+{
+	WEAPON_TYPE_NONE = 0;
+	WEAPON_TYPE_SWORD = 1;
+	WEAPON_TYPE_BOOK = 2;
+}
+
+enum ArmorType
+{
+	ARMOR_TYPE_NONE = 0;
+	ARMOR_TYPE_HELMET = 1;
+	ARMOR_TYPE_ARMOR = 2;
+	ARMOR_TYPE_BOOTS = 3;
+}
+
+enum ConsumableType
+{
+	CONSUMABLE_TYPE_NONE = 0;
+	CONSUMABLE_TYPE_PORTION = 1;
+}
+
+enum MoveDir
+{
+	UP = 0;
+	DOWN = 1;
+	LEFT = 2;
+	RIGHT = 3;
+	UP_RIGHT = 4;
+	UP_LEFT = 5;
+	DOWN_RIGHT = 6;
+	DOWN_LEFT = 7;
+}

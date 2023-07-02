@@ -1,0 +1,50 @@
+{
+  "weapons": [
+    {
+      "id": 1,
+      "name": "일진문자",
+      "imagePath": "../Assets/GUI/Sword.png",
+      "weaponType": "Sword",
+      "damage": 10
+    },
+    {
+      "id": 2,
+      "name": "현자의 책",
+      "imagePath": "../Assets/GUI/Book.png",
+      "weaponType": "Book",
+      "damage": 5
+    }
+  ],
+  "armors": [
+    {
+      "id": 100,
+      "name": "컴투사의 투구",
+      "imagePath": "../Assets/GUI/Helmet.png",
+      "armorType": "Helmet",
+      "defence": 20
+    },
+    {
+      "id": 101,
+      "name": "본 메일",
+      "imagePath": "../Assets/GUI/Armor.png",
+      "armorType": "Armor",
+      "defence": 20
+    },
+    {
+      "id": 102,
+      "name": "샌들",
+      "imagePath": "../Assets/GUI/Boots.png",
+      "armorType": "Boots",
+      "defence": 5
+    }
+  ],
+  "consumables": [
+    {
+      "id": 200,
+      "name": "축복의 물약",
+      "imagePath": "../Assets/GUI/Hp_Portion.png",
+      "consumableType": "Portion",
+      "maxCount": 20
+    }
+  ]
+} 

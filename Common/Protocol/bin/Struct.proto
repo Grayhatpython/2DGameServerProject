@@ -1,0 +1,61 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+
+message ServerInfo
+{
+	string name = 1;
+	string ip = 2;
+	int32 port = 3;
+	int32 complexity = 4;
+}
+
+message PositionInfo
+{
+	AIState state = 1;
+	MoveDir moveDir = 2;
+	float positionX = 3;
+	float positionY = 4;
+	int32 usedSkillId = 5;
+}
+
+message StatInfo
+{
+	int32 level = 1;
+	int32 hp = 2;
+	int32 maxHp = 3;
+	int32 attack = 4;
+	int32 totalExp = 5;
+	float speed = 6;
+}
+
+message LobbyPlayerInfo 
+{
+	int32		playerDbId = 1;
+	string		name = 2;
+	StatInfo	statInfo = 3;
+}
+
+message ActorInfo
+{
+	uint64 id = 1;
+	string name = 2;
+	PositionInfo positionInfo = 3;
+	StatInfo statInfo = 4;
+}
+
+message ItemInfo
+{
+	int32	itemDbId = 1;
+	int32	dataSheetId = 2;
+	int32	count = 3;
+	int32	slot = 4;
+	bool	equipped = 5;
+}
+
+message SkillInfo
+{
+	int32 skillId = 1;
+	//	TODO
+}

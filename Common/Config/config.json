@@ -1,0 +1,7 @@
+{
+  "config": [
+    {
+      "dataPath" : "../Common/GameData/DataSheet",
+      "dbConnectionString" : "Driver={SQL Server Native Client 11.0};Server=DESKTOP-3O8GGTF\\SQLEXPRESS;Database=GameServerDB;Trusted_Connection=Yes;"
+  }]
+} 

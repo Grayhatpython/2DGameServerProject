@@ -1,0 +1,708 @@
+{
+  "player_idle": [
+    {
+      "name" : "PLAYER_IDLE_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_IDLE_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "PLAYER_IDLE_UP",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_IDLE_DOWN",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_IDLE_UP_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_IDLE_UP_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "PLAYER_IDLE_DOWN_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_IDLE_DOWN_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 1,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    }
+  ],
+  "player_move": [
+    {
+      "name" : "PLAYER_MOVE_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_MOVE_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "PLAYER_MOVE_UP",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_MOVE_DOWN",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_MOVE_UP_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_MOVE_UP_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "PLAYER_MOVE_DOWN_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_MOVE_DOWN_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 6,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    }
+  ],
+  "player_skill": [
+    {
+      "name" : "PLAYER_AUTO_ATTACK_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 6,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_UP",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_DOWN",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 5,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_UP_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 2,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_UP_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 0,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_DOWN_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 6,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_AUTO_ATTACK_DOWN_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 4,
+      "standardYIndex" : 8,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 2,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 6,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_UP",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 0,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_DOWN",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 4,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_UP_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 1,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_UP_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 7,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_DOWN_LEFT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 5,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    },
+    {
+      "name" : "PLAYER_BALL_ATTACK_DOWN_RIGHT",
+      "width" : 32,
+      "height" : 32,
+      "standardXIndex" : 3,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 4,
+      "repeat" : false,
+      "animDir" : 1,
+      "flip" : 0
+    }
+  ],
+  "monster_idle": [
+    {
+      "name" : "MONSTER_IDLE_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_IDLE_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 1,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_IDLE_UP",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_IDLE_DOWN",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_IDLE_UP_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_IDLE_UP_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 0,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_IDLE_DOWN_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_IDLE_DOWN_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 2,
+      "maxFrameCount" : 5,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    }
+  ],
+  "monster-move": [
+    {
+      "name" : "MONSTER_MOVE_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_MOVE_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_MOVE_UP",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_MOVE_DOWN",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_MOVE_UP_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_MOVE_UP_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_MOVE_DOWN_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_MOVE_DOWN_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 0,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 4,
+      "repeat" : true,
+      "animDir" : 0,
+      "flip" : 1
+    }
+  ],
+  "monster-skill": [
+    {
+      "name" : "MONSTER_AUTO_ATTACK_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 4,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_UP",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_DOWN",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_UP_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 0
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_UP_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 3,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_DOWN_LEFT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 1
+    },
+    {
+      "name" : "MONSTER_AUTO_ATTACK_DOWN_RIGHT",
+      "width" : 56,
+      "height" : 48,
+      "standardXIndex" : 4,
+      "standardYIndex" : 5,
+      "maxFrameCount" : 5,
+      "repeat" : false,
+      "animDir" : 0,
+      "flip" : 0
+    }
+  ],
+  "fireball_move" : [
+    {
+    "name" : "FIREBALL_MOVE",
+    "width" : 24,
+    "height" : 24,
+    "standardXIndex" : 0,
+    "standardYIndex" : 1,
+    "maxFrameCount" : 4,
+    "repeat" : true,
+    "animDir" : 0,
+    "flip" : 0
+    }
+  ],
+  "fireball_destory_effect" : [
+    {
+    "name" : "FIREBALL_DESTORY_EFFECT",
+    "width" : 24,
+    "height" : 24,
+    "standardXIndex" : 0,
+    "standardYIndex" : 0,
+    "maxFrameCount" : 7,
+    "repeat" : false,
+    "animDir" : 0,
+    "flip" : 0
+   }
+  ],
+  "actor_explosion_effect" : [
+    {
+    "name" : "ACTOR_EXPLOSION_EFFECT",
+    "width" : 32,
+    "height" : 32,
+    "standardXIndex" : 0,
+    "standardYIndex" : 0,
+    "maxFrameCount" : 9,
+    "repeat" : false,
+    "animDir" : 0,
+    "flip" : 0
+    }
+  ],
+  "target_hit_effect" : [
+    {
+    "name" : "TARGET_HIT_EFFECT",
+    "width" : 64,
+    "height" : 64,
+    "standardXIndex" : 2,
+    "standardYIndex" : 1,
+    "maxFrameCount" : 8,
+    "repeat" : false,
+    "animDir" : 0,
+    "flip" : 0
+    }
+  ],
+  "actor_shadow_effect" : [
+    {
+    "name" : "ACTOR_SHADOW_EFFECT",
+    "width" : 32,
+    "height" : 32,
+    "standardXIndex" : 0,
+    "standardYIndex" : 0,
+    "maxFrameCount" : 1,
+    "repeat" : false,
+    "animDir" : 0,
+    "flip" : 0
+    }
+  ],
+  "player_auto_attack_sweep_effect" : [
+    {
+    "name" : "PLAYER_AUTO_ATTACK_SWEEP_EFFECT",
+    "width" : 64,
+    "height" : 51,
+    "standardXIndex" : 0,
+    "standardYIndex" : 0,
+    "maxFrameCount" : 8,
+    "repeat" : false,
+    "animDir" : 0,
+    "flip" : 0
+    }
+  ]
+} 

@@ -18,13 +18,13 @@ public:
 	virtual void			OnKeyBoardHeld(SDL_Scancode keyCode) override;
 	virtual void			OnKeyBoardReleased(SDL_Scancode keyCode) override;
 	virtual void			OnTextInput(const std::wstring& text) override;
-	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 }, float scale = 1.f);
+	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 });
 
 public:
-	void					SetText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = WHITE);
+	void					SetText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = COLOR_WHITE);
 	std::wstring			GetText() { return _sendText; }
 
-	void					SetCursorText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = WHITE);
+	void					SetCursorText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = COLOR_WHITE);
 
 	Texture*				GetFontTexture() { return _fontTexture; }
 

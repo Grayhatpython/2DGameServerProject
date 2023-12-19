@@ -29,9 +29,10 @@ message L_C_LOGIN_ACCOUNT
 message L_S_LOGIN_ACCOUNT
 {
 	bool loginOk = 1;
-	int32 accountId = 2;
-	int32 token = 3;
-	repeated ServerInfo serverInfos = 4;
+	string loginFailedReason = 2;
+	int32 accountId = 3;
+	int32 token = 4;
+	repeated ServerInfo serverInfos = 5;
 }
 
 message S_CONNECTED 
@@ -42,6 +43,8 @@ message S_CONNECTED
 message C_LOGIN
 {
 	string uniqueId = 1;
+	int32 token = 2;
+	int32 accountId = 3;
 }
 
 message S_LOGIN

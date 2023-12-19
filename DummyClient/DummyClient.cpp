@@ -73,7 +73,7 @@ void DummyClient::Start()
 
 	while (true)
 	{
-		SHORT keyState = GetKeyState(VK_SPACE);
+		SHORT keyState = GetKeyState(VK_F3);
 		bool isToggled = keyState & 1;
 		bool isDown = keyState & 0x8000;
 

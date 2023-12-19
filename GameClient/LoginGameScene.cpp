@@ -8,6 +8,7 @@
 #include "GUIImage.h"
 #include "GUILoginForm.h"
 #include "GUIServerSelectionForm.h"
+#include "GUILoginOrRegisterFailedBox.h"
 
 LoginGameScene::LoginGameScene()
 	: GameScene(GameSceneType::Login)
@@ -36,6 +37,11 @@ void LoginGameScene::Initialize()
 
 	auto serverSelectionForm = GGUIManager->AddGui<GUIServerSelectionForm>(L"ServerSelectionForm");
 	ASSERT(serverSelectionForm);
+
+	//auto loginOrRegisterFailedBox = GGUIManager->AddGui<GUILoginOrRegisterFailedBox>(L"LoginOrRegisterFailedBox");
+	//ASSERT(loginOrRegisterFailedBox);
+	////	temp
+	//loginOrRegisterFailedBox->SetState(GUIState::Active);
 }
 
 void LoginGameScene::ProcessInput(const InputState& state)

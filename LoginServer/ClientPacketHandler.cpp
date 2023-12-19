@@ -115,7 +115,7 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 
 		int32 token = Random::GetIntRange(INT32_MIN, INT32_MAX);
 
-		//	
+		// 인증 정보 ( 토큰 , 유효기간 ) 업데이트
 		if (authId > 0)
 		{
 			dbConnection->UnBind();
@@ -135,11 +135,13 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 			{
 				;
 			}
+			//	인증 정보 업데이트 실패?
 			else
 			{
 				;
 			}
 		}
+		//	인증 정보 ( 토큰 , 유효기간 ) 생성
 		else
 		{
 			dbConnection->UnBind();
@@ -159,6 +161,7 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 			{
 				;
 			}
+			//	인증 정보 생성 실패?
 			else
 			{
 				;
@@ -169,7 +172,7 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 		loginAccountSendPacket.set_accountid(accountId);
 		loginAccountSendPacket.set_token(token);
 
-		//	서버목록 설정.. 게임서버와의 통신이 필요할거같다..
+		//	게임 서버 접속 목록을 보내준다..
 		{
 			dbConnection->UnBind();
 
@@ -184,6 +187,8 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 			dbHepler.BindCol(3, complexity);
 			ASSERT(dbHepler.Execute());
 
+			//	서버목록 설정.. 게임서버와의 통신이 필요할거같다..
+			//	Or MasterDB에 GameServer가 연결해 서버 복잡도를 업데이트 하면 로그인 서버에서도 MasterDB에 주기적으로 업데이트한다.
 			while (dbHepler.Fetch())
 			{
 				auto serverInfo = loginAccountSendPacket.add_serverinfos();
@@ -198,11 +203,17 @@ bool L_C_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 	}
 
 	else if (accountId == 0)
+	{
 		//	패스워드가 불일치
 		loginAccountSendPacket.set_loginok(false);
+		loginAccountSendPacket.set_loginfailedreason("Login information mismatch!");
+	}
 	else
+	{
 		//	해당 계정 없음
 		loginAccountSendPacket.set_loginok(false);
+		loginAccountSendPacket.set_loginfailedreason("Login account does not exist!");
+	}
 
 
 	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(loginAccountSendPacket);

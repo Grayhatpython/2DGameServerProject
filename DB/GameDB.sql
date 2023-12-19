@@ -272,23 +272,29 @@ EXEC usp_SelectAccountId N'홍길33순'
 EXEC usp_SelectPlayers N'홍길3순'
 EXEC usp_InsertPlayer N'Player_1', 11, 11, 11, 11, 11.0, 11, 1
 
+DBCC CHECKIDENT(Account, reseed, 0);
 DBCC CHECKIDENT(Player, reseed, 0);
 DBCC CHECKIDENT(Item, reseed, 0);
 GO
 
+
+--	계정
 SELECT *
 FROM Account;
 GO
 
+--	캐릭터
 SELECT *
 FROM Player;
 GO
 
+--	아이템
 SELECT *
 FROM Item;
 GO
 
 
+DELETE FROM Account;
 DELETE FROM Player;
 DELETE FROM Item;
 GO

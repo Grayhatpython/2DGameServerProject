@@ -43,3 +43,5 @@ std::shared_ptr<Player> ActorManager::FindPlayerFromId(int32 actorId)
 
 	return std::shared_ptr<Player>();
 }
+
+//	추후 나간 플레이어 처리..

@@ -56,20 +56,21 @@ bool Region::Initialize(int32 splitZoneCount)
 
 	}
 
+	/*
 	//	Monster Test
-	//{
-	//	for (int32 i = 0; i < 300; i++)
-	//	{
-	//		//	TEMP
-	//		auto monster = GActorManager->AddActor<Monster>();
-	//		std::string name = "Monster_" + std::to_string(monster->GetId());
-	//		monster->SetName(name);
-	//		monster->Initialize();
-	//		monster->SetPosition(Vector2{ 336.f + (i * MOVE_DISTANCE),336.f});
-	//		OnlyPushJobAndNotDistribute(&Room::Enter, std::static_pointer_cast<Actor>(monster), true);
-	//	}
-	//}
-
+	{
+		for (int32 i = 0; i < 300; i++)
+		{
+			//	TEMP
+			auto monster = GActorManager->AddActor<Monster>();
+			std::string name = "Monster_" + std::to_string(monster->GetId());
+			monster->SetName(name);
+			monster->Initialize();
+			monster->SetPosition(Vector2{ 336.f + (i * MOVE_DISTANCE),336.f});
+			OnlyPushJobAndNotDistribute(&Region::Enter, std::static_pointer_cast<Actor>(monster), true);
+		}
+	}
+	*/
 	return true;
 }
 

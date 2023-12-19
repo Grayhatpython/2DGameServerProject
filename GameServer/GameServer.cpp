@@ -103,7 +103,7 @@ bool GameServer::Initialize()
 			DataManager::_serverInfos.push_back(serverInfo);
 		}
 
-		ASSERT(GDBConnectionPool->Initialize(4, L"GameServerDB", ConfigManager::serverConfig.dbConnectionString.c_str()));
+		ASSERT(GDBConnectionPool->Initialize(5, L"GameServerDB", ConfigManager::serverConfig.dbConnectionString.c_str()));
 		ASSERT(GDBConnectionPool->Initialize(1, L"MasterDB", L"Driver={SQL Server Native Client 11.0};Server=DESKTOP-3O8GGTF\\SQLEXPRESS;Database=MasterDB;Trusted_Connection=Yes;"));
 	}
 
@@ -183,6 +183,7 @@ void GameServer::Start()
 	}
 
 	//	음.. 매번 실행될 일감들..
+	//	클라이언트와의 연결이 살아 있는지 주기적으로 패킷 전달...
 	/*for (int32 i = 0; i < 1; i++)
 	{
 		std::wstring name = L"RunningSchedule " + std::to_wstring(i);
@@ -192,6 +193,8 @@ void GameServer::Start()
 				std::this_thread::sleep_for(500ms);
 			});
 	}*/
+
+	//	F2 key -> Server Exit
 
 	while (true)
 	{

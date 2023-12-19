@@ -20,7 +20,7 @@ void GUIImage::Render(const Vector2Int& cameraOffset)
 	DrawTexture(_background, _position);
 }
 
-void GUIImage::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUIImage::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	auto screenWidth = GRenderManager->GetScreenWidth();
 	auto screenHeight = GRenderManager->GetScreenHeight();
@@ -37,8 +37,8 @@ void GUIImage::DrawTexture(Texture* texture, const Vector2Int& position, const V
 
 	SDL_Rect dstrect;
 
-	dstrect.w = static_cast<int32>(width * scale);
-	dstrect.h = static_cast<int32>(height * scale);
+	dstrect.w = static_cast<int32>(width * _scale);
+	dstrect.h = static_cast<int32>(height * _scale);
 	dstrect.x = drawPosX - dstrect.w / 2;
 	dstrect.y = drawPosY - dstrect.h / 2;
 

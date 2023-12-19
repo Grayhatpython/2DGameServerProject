@@ -45,14 +45,17 @@ bool Packet_Processing_Function_Undefined(std::shared_ptr<PacketSession>& sessio
 	return false;
 }
 
+//	게임 서버 연결 
 bool S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CONNECTED& packet)
 {
 	std::wcout << L"S_CONNECTED_Packet_Processing_Function" << std::endl;
 
 	Protocol::C_LOGIN loginSendPacket;
 
-	//	유니크 ID .. 고민중
-	loginSendPacket.set_uniqueid("csi");
+	auto uniqueId = UtilityHelper::ConvertUnicodeToUTF8(GNetworkManager->GetAccountName());
+	loginSendPacket.set_uniqueid(uniqueId);
+	loginSendPacket.set_token(GNetworkManager->GetToken());
+	loginSendPacket.set_accountid(GNetworkManager->GetAccountId());
 	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginSendPacket);
 	GNetworkManager->Send(loginSendPacket);
 
@@ -365,7 +368,7 @@ bool S_DESPAWN_Packet_Processing_Function(std::shared_ptr<PacketSession>& sessio
 
 bool S_MOVE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_MOVE& packet)
 {
-	std::cout << "S_MOVE_Packet_Processing_Function" << std::endl;
+	//std::cout << "S_MOVE_Packet_Processing_Function" << std::endl;
 
 	auto actor = GActorManager->FindActor(packet.actorid());
 	//	Zone 이슈
@@ -394,7 +397,7 @@ bool S_MOVE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, 
 
 bool S_SKILL_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_SKILL& packet)
 {
-	std::cout << "S_SKILL_Packet_Processing_Function" << std::endl;
+	//std::cout << "S_SKILL_Packet_Processing_Function" << std::endl;
 
 	auto actor = GActorManager->FindActor(packet.actorid());
 	//	Zone 이슈
@@ -562,6 +565,8 @@ bool L_S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& se
 {
 	std::cout << "L_S_CONNECTED_Packet_Processing_Function" << std::endl;
 
+	//	로그인 서버가 아니네..?
+	ASSERT(packet.name().compare("LoginServer") == 0);
 
 	//	Login Server -> Name Password Send
 	/*Protocol::L_C_CREATE_ACCOUNT createAccountSendPacket;
@@ -577,19 +582,23 @@ bool L_S_CREATE_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession
 {
 	std::cout << "L_S_CREATE_ACCOUNT_Packet_Processing_Function" << std::endl;
 
+	auto gui = GGUIManager->GetGui(L"LoginForm");
+	ASSERT(gui);
+	auto loginForm = static_cast<GUILoginForm*>(gui);
+	ASSERT(loginForm);
+
 	if (packet.createok())
 	{
 		std::wcout << L"계정 생성 성공" << std::endl;
-		auto gui = GGUIManager->GetGui(L"LoginForm");
-		ASSERT(gui);
-		auto loginForm = static_cast<GUILoginForm*>(gui);
-		ASSERT(loginForm);
+
 		loginForm->Clear();
+		loginForm->SetLoginOrRegisterFailedText(L"Account creation was successful!");
 	}
-	//	실패 ? 사유가 멀까.. 패킷으로 보내주자
+	//	실패 
 	else
 	{
-
+		//	실패 사유 출력
+		loginForm->SetLoginOrRegisterFailedText(L"An identical account already exists!");
 	}
 
 	return true;
@@ -597,11 +606,19 @@ bool L_S_CREATE_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession
 
 bool L_S_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::L_S_LOGIN_ACCOUNT& packet)
 {
-	std::cout << "L_S_CREATE_ACCOUNT_Packet_Processing_Function" << std::endl;
+	//	체크 해주자!
+	ASSERT(GNetworkManager->GetClientGameState() == Protocol::ClientGameState::CLIENT_STATE_LOGIN);
+
+	std::cout << "L_S_LOGIN_ACCOUNT_Packet_Processing_Function" << std::endl;
 
 	//	게임 씬으로..
 	if (packet.loginok())
 	{
+		//	로그인 서버로 부터 받은 인증 정보..
+		GNetworkManager->SetAccountId(packet.accountid());
+		GNetworkManager->SetToken(packet.token());
+		GNetworkManager->SetAccountName(GNetworkManager->GetAccountName() + std::to_wstring(packet.accountid()));
+
 		auto loginForm = GGUIManager->GetGui(L"LoginForm");
 		ASSERT(loginForm);
 		loginForm->SetState(GUIState::DeActive);
@@ -616,18 +633,16 @@ bool L_S_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 		static_cast<GUIServerSelectionForm*>(serverSelectionForm)->SetServerInfos(serverInfos);
 
 		serverSelectionForm->SetState(GUIState::Active);
-
-		{
-			//	로그인 서버 연결 종료
-			GNetworkManager->SetClientGameState(Protocol::ClientGameState::CLIENT_STATE_GAME);
-			session->Disconnect(L"로그인 성공 -> 로그인 서버 연결 종료");
-			std::this_thread::sleep_for(100ms);
-		}
 	}
-	//	실패 ? 사유가 멀까.. 패킷으로 보내주자
+	//	실패 
 	else
 	{
-		
+		auto failedReasonText = UtilityHelper::ConvertUTF8ToUnicode(packet.loginfailedreason());
+
+		//	실패 사유 출력
+		auto loginForm = GGUIManager->GetGui(L"LoginForm");
+		ASSERT(loginForm);
+		static_cast<GUILoginForm*>(loginForm)->SetLoginOrRegisterFailedText(failedReasonText);
 	}
 
 	return true;

@@ -160,7 +160,7 @@ void GUITextBox::OnTextInput(const std::wstring& text)
 	}
 }
 
-void GUITextBox::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUITextBox::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
@@ -170,8 +170,8 @@ void GUITextBox::DrawTexture(Texture* texture, const Vector2Int& position, const
 		offsetX = 0;
 
 	SDL_Rect srcrect;
-	srcrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	srcrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	srcrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	srcrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	srcrect.x = offsetX;
 	srcrect.y = 0;
 
@@ -180,8 +180,8 @@ void GUITextBox::DrawTexture(Texture* texture, const Vector2Int& position, const
 	if (width > _dimension.x)
 		width = _dimension.x;
 
-	dstrect.w = static_cast<int32>(width * scale);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	dstrect.w = static_cast<int32>(width * _scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	dstrect.x = drawPosX;
 	dstrect.y = drawPosY - dstrect.h / 2;
 

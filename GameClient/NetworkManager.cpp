@@ -28,8 +28,8 @@ bool NetworkManager::Initialize()
 	LThreadId = ::GetCurrentThreadId();
 
 	_clientService = MakeShared<ClientService>(
-		//NetworkAddress(L"127.0.0.1", 9999),
-		NetworkAddress(L"127.0.0.1", 8888),
+		NetworkAddress(L"127.0.0.1", 9999),			//	Login Server
+		//NetworkAddress(L"127.0.0.1", 8888),		//	Game Server
 		MakeShared<IocpCore>(),
 		MakeShared<ServerSession>,	//	TODO : SessionManger
 		1
@@ -56,8 +56,21 @@ void NetworkManager::Start()
 	}
 }
 
+//	로그인 서버 -> 게임 서버 연결
 void NetworkManager::ConnectToGameServer(const std::wstring& ip, int32 port)
 {
+
+	{
+		//	로그인 서버 연결 종료
+		GNetworkManager->SetClientGameState(Protocol::ClientGameState::CLIENT_STATE_GAME);
+		auto serverSession = GetServerSession();
+		ASSERT(serverSession);
+		serverSession->Disconnect(L"로그인 성공 -> 로그인 서버 연결 종료");
+
+		//	Main Thread Wait
+		std::this_thread::sleep_for(200ms);
+	}
+
 	//	워커 스레드 종료 처리
 	GThreadManager->Clear();
 	_networkThreadName.clear();
@@ -91,13 +104,9 @@ void NetworkManager::Clear()
 	PrcoessPackets();
 
 	//	서버와 연결 종료
-	auto gameServerSession = GetGameServerSession();
-	if(gameServerSession)
-		gameServerSession->Disconnect(L"게임서버종료");
-
-	auto loginServerSession = GetLoginServerSession();
-	if (loginServerSession)
-		loginServerSession->Disconnect(L"로그인서버종료");
+	auto serverSession = GetServerSession();
+	if (serverSession)
+		serverSession->Disconnect(L"서버연결종료");
 
 	//	연결 종료 처리 Wait
 	std::this_thread::sleep_for(200ms);
@@ -122,19 +131,11 @@ void NetworkManager::Clear()
 
 void NetworkManager::Send(std::shared_ptr<SendBuffer> sendBuffer)
 {
-	std::shared_ptr<PacketSession> session;
+	auto serverSession = GetServerSession();
+	ASSERT(serverSession);
 
-	if (_state == Protocol::CLIENT_STATE_LOGIN)
-		session = GetLoginServerSession();
-	else if (_state == Protocol::CLIENT_STATE_GAME)
-		session = GetGameServerSession();
-	else
-		ASSERT(false);
-
-	ASSERT(session);
-
-	if (session)
-		session->Send(sendBuffer, false);
+	if (serverSession)
+		serverSession->Send(sendBuffer, false);
 }
 
 void NetworkManager::PushRecvPacket(BYTE* buffer, int32 len)
@@ -167,15 +168,9 @@ void NetworkManager::PrcoessPackets()
 	{
 		PacketHeader* packetHeader = reinterpret_cast<PacketHeader*>(recvPacket->buffer);
 		
-		std::shared_ptr<PacketSession>	session;
-		if (_state == Protocol::CLIENT_STATE_LOGIN)
-			session = GetLoginServerSession();
-		else if (_state == Protocol::CLIENT_STATE_GAME)
-			session = GetGameServerSession();
-		else
-			ASSERT(false);
+		auto serverSession = GetServerSession();
+		ASSERT(serverSession);
 
-		if(session)
-			ServerPacketHandler::PacketProcessing(session, recvPacket->buffer, recvPacket->len);
+		ServerPacketHandler::PacketProcessing(serverSession, recvPacket->buffer, recvPacket->len);
 	}
 }

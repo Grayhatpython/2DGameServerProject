@@ -13,14 +13,8 @@
     <Filter Include="GameContents\Actor">
       <UniqueIdentifier>{22f1c62a-17ad-44b3-b012-699b66175c0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameContents\Room">
-      <UniqueIdentifier>{741538d0-1abe-49b8-b1b3-10c3390eed78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameContents\Manager">
       <UniqueIdentifier>{54b0f42d-901a-4bfe-b8b1-ac703dc2d75b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameContents\Room\Field">
-      <UniqueIdentifier>{a0471512-00d3-4fea-8520-d0f21e4616bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameContents\Data">
       <UniqueIdentifier>{bebf4c8e-a6ca-4869-9f90-a5a649145f02}</UniqueIdentifier>
@@ -28,15 +22,21 @@
     <Filter Include="GameContents\Item">
       <UniqueIdentifier>{f6b38075-9e4b-4891-b009-88b512b6c835}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameContents\Room\Zone">
-      <UniqueIdentifier>{b51b70ba-485f-4069-8dca-193f9fb3d0e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameContents\Room\FieldOfView">
-      <UniqueIdentifier>{b169a44a-b6e2-4228-ae30-f71d17208ce0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="GameContents\Region">
+      <UniqueIdentifier>{741538d0-1abe-49b8-b1b3-10c3390eed78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Region\Field">
+      <UniqueIdentifier>{a0471512-00d3-4fea-8520-d0f21e4616bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Region\Zone">
+      <UniqueIdentifier>{b51b70ba-485f-4069-8dca-193f9fb3d0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameContents\Region\FieldOfView">
+      <UniqueIdentifier>{b169a44a-b6e2-4228-ae30-f71d17208ce0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -83,10 +83,10 @@
       <Filter>GameContents\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Region.cpp">
-      <Filter>GameContents\Room</Filter>
+      <Filter>GameContents\Region</Filter>
     </ClCompile>
     <ClCompile Include="Field.cpp">
-      <Filter>GameContents\Room\Field</Filter>
+      <Filter>GameContents\Region\Field</Filter>
     </ClCompile>
     <ClCompile Include="RegionManager.cpp">
       <Filter>GameContents\Manager</Filter>
@@ -113,10 +113,10 @@
       <Filter>GameContents\Item</Filter>
     </ClCompile>
     <ClCompile Include="Zone.cpp">
-      <Filter>GameContents\Room\Zone</Filter>
+      <Filter>GameContents\Region\Zone</Filter>
     </ClCompile>
     <ClCompile Include="FieldOfView.cpp">
-      <Filter>GameContents\Room\FieldOfView</Filter>
+      <Filter>GameContents\Region\FieldOfView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,10 +163,10 @@
       <Filter>GameContents\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Region.h">
-      <Filter>GameContents\Room</Filter>
+      <Filter>GameContents\Region</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>GameContents\Room\Field</Filter>
+      <Filter>GameContents\Region\Field</Filter>
     </ClInclude>
     <ClInclude Include="ActorManager.h">
       <Filter>GameContents\Manager</Filter>
@@ -196,10 +196,10 @@
       <Filter>GameContents\Item</Filter>
     </ClInclude>
     <ClInclude Include="Zone.h">
-      <Filter>GameContents\Room\Zone</Filter>
+      <Filter>GameContents\Region\Zone</Filter>
     </ClInclude>
     <ClInclude Include="FieldOfView.h">
-      <Filter>GameContents\Room\FieldOfView</Filter>
+      <Filter>GameContents\Region\FieldOfView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

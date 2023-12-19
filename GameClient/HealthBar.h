@@ -26,7 +26,7 @@ public:
 	std::shared_ptr<Creature>	GetOwner() { return _owner.lock(); }
 
 protected:
-	virtual void	DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0,0}, float scale = 1.f) override;
+	virtual void	DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0,0}) override;
 
 private:
 	void UpdatePosition();

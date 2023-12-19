@@ -96,9 +96,11 @@ BEGIN
 
 		IF @isPasswordHash IS NOT NULL
 			SELECT @findAccountId;
+		--	패스워드 불일치
 		ELSE
 			SELECT 0;
 	END
+	--	계정 존재하지 않음
 	ELSE
 		SELECT -1
 END
@@ -123,9 +125,9 @@ DECLARE @hash VARBINARY(MAX) =
 		FROM Account
 		WHERE accountId = 1);
 
-SELECT @hash AS HashValue, PWDCOMPARE(N'tesfs3232',@hash) AS IsPasswordHash;
+SELECT @hash AS HashValue
+SELECT PWDCOMPARE(N'tesfs3232',@hash) AS IsPasswordHash
 GO
-
 
 DELETE FROM Account;
 GO

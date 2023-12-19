@@ -29,10 +29,10 @@ public:
 	void					OnSendChatMessage();
 
 protected:
-	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 }, float scale = 1.f) override;
+	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 }) override;
 
 private:
-	void					SetText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = WHITE);
+	void					SetText(const std::wstring& text, int32 fontSize = 24, SDL_Color color = COLOR_WHITE);
 
 public:
 	void					AddChatMessage(const std::wstring& name, const std::wstring& message);

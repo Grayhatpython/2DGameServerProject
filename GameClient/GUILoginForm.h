@@ -26,12 +26,16 @@ public:
 	virtual void			OnTextInput(const std::wstring& text) override;
 	virtual void			OnMouseOver(const Vector2Int& position) override;
 
+public:
+	void					SetLoginOrRegisterFailedText(const std::wstring& text);
+
 private:
 	void					OnClickLoginButton();
 	void					OnClickRegisterButton();
 
 private:
 	GUILable*	_titleText = nullptr;
+	GUILable*	_loginOrRegisterFailedText = nullptr;
 	GUITextBox* _name = nullptr;
 	GUITextBox* _password = nullptr;
 	GUIButton*	_login = nullptr;

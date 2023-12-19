@@ -69,7 +69,6 @@ void ClientSession::OnDisconnected()
 			/*region->OnlyPushJobAndNotDistribute([id]() {
 					GActorManager->RemoveActor(id);
 				});*/
-				//GPlayerManager->Remove(_myPlayer->GetId());
 			_myPlayer = nullptr;
 		}
 	}
@@ -84,94 +83,135 @@ void ClientSession::Login(Protocol::C_LOGIN& loginPacket)
 
 	_lobbyPlayerInfos.clear();
 
-	{
-		std::wcout << UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid()) << std::endl;
-	}
+	auto uniqueId = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
+	std::wcout << uniqueId << std::endl;
 
 	{
 		//	TODO : DB접근 문제 있을 수 있음
 		//	보안 체크
-		auto dbConnection = GDBConnectionPool->Pop(L"GameServerDB");
-		dbConnection->UnBind();
 
-		DBHelper<1, 1> dbHepler(dbConnection, L"EXEC usp_SelectAccountId ?");
-		auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
-		
-		dbHepler.BindParam(0, name.c_str());
-		int32 accountDbId = 0;
-		dbHepler.BindCol(0, accountDbId);
 
-		ASSERT(dbHepler.Execute());
-		while (dbHepler.Fetch())
-			_accountDbId = accountDbId;
 
-		//	계정이 있는 경우
-		if (_accountDbId > 0)
+
+		//	인증 id
+		int32	authId = 0;
+		bool	isDummyClient = false;
+
+		//	더미 클라이언트는 스트레스 테스트를 위해 인증 생략
+		if (uniqueId.find(L"DummyClient") == wstring::npos)
 		{
-			DBHelper<1, 7> dbHepler(dbConnection, L"EXEC usp_SelectPlayers ?");
-			auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
-			dbHepler.BindParam(0, name.c_str());
+			auto dbConnection = GDBConnectionPool->Pop(L"MasterDB");
 
-			int32 playerId = 0;
-			int32 level = 0;
-			int32 hp = 0;
-			int32 maxHp = 0;
-			int32 attack = 0;
-			float speed = 0.f;
-			int32 totalExp = 0;
+			dbConnection->UnBind();
 
-			dbHepler.BindCol(0, playerId);
-			dbHepler.BindCol(1, level);
-			dbHepler.BindCol(2, hp);
-			dbHepler.BindCol(3, maxHp);
-			dbHepler.BindCol(4, attack);
-			dbHepler.BindCol(5, speed);
-			dbHepler.BindCol(6, totalExp);
+			DBHelper<2, 1> dbHepler(dbConnection, L"EXEC usp_SelectAccountToken ?, ?");
+			auto accountId = loginPacket.accountid();
+			auto token = loginPacket.token();
+			dbHepler.BindParam(0, accountId);
+			dbHepler.BindParam(1, token);
+			dbHepler.BindCol(0, authId);
 
 			ASSERT(dbHepler.Execute());
-
-			//	위치값을... 있던 장소에 누가 있다면..?
-			Protocol::LobbyPlayerInfo lobbyPlayerInfo;
 			while (dbHepler.Fetch())
-			{
-				lobbyPlayerInfo.set_playerdbid(playerId);
-				lobbyPlayerInfo.set_name(loginPacket.uniqueid());
-				lobbyPlayerInfo.mutable_statinfo()->set_level(level);
-				lobbyPlayerInfo.mutable_statinfo()->set_hp(hp);
-				lobbyPlayerInfo.mutable_statinfo()->set_maxhp(maxHp);
-				lobbyPlayerInfo.mutable_statinfo()->set_attack(attack);
-				lobbyPlayerInfo.mutable_statinfo()->set_speed(speed);
-				lobbyPlayerInfo.mutable_statinfo()->set_totalexp(totalExp);
-				_lobbyPlayerInfos.push_back(lobbyPlayerInfo);
-			}
+				;
+
+			GDBConnectionPool->Push(L"MasterDB", dbConnection);
 		}
-		//	계정이 없는 경우
 		else
+			isDummyClient = true;
+
+		//	인증 성공
+		if (isDummyClient || authId > 0)
 		{
-			DBHelper<1, 1> dbHepler(dbConnection, L"EXEC usp_CreateAccount ?");
+			//	TODO : DB접근 문제 있을 수 있음
+			//	보안 체크
+			auto dbConnection = GDBConnectionPool->Pop(L"GameServerDB");
+			dbConnection->UnBind();
+
+			DBHelper<1, 1> dbHepler(dbConnection, L"EXEC usp_SelectAccountId ?");
 			auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
+
 			dbHepler.BindParam(0, name.c_str());
+			int32 accountDbId = 0;
 			dbHepler.BindCol(0, accountDbId);
 
 			ASSERT(dbHepler.Execute());
 			while (dbHepler.Fetch())
 				_accountDbId = accountDbId;
+
+			//	계정이 있는 경우
+			if (_accountDbId > 0)
+			{
+				DBHelper<1, 7> dbHepler(dbConnection, L"EXEC usp_SelectPlayers ?");
+				auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
+				dbHepler.BindParam(0, name.c_str());
+
+				int32 playerId = 0;
+				int32 level = 0;
+				int32 hp = 0;
+				int32 maxHp = 0;
+				int32 attack = 0;
+				float speed = 0.f;
+				int32 totalExp = 0;
+
+				dbHepler.BindCol(0, playerId);
+				dbHepler.BindCol(1, level);
+				dbHepler.BindCol(2, hp);
+				dbHepler.BindCol(3, maxHp);
+				dbHepler.BindCol(4, attack);
+				dbHepler.BindCol(5, speed);
+				dbHepler.BindCol(6, totalExp);
+
+				ASSERT(dbHepler.Execute());
+
+				//	위치값을... 있던 장소에 누가 있다면..?
+				Protocol::LobbyPlayerInfo lobbyPlayerInfo;
+				while (dbHepler.Fetch())
+				{
+					lobbyPlayerInfo.set_playerdbid(playerId);
+					lobbyPlayerInfo.set_name(loginPacket.uniqueid());
+					lobbyPlayerInfo.mutable_statinfo()->set_level(level);
+					lobbyPlayerInfo.mutable_statinfo()->set_hp(hp);
+					lobbyPlayerInfo.mutable_statinfo()->set_maxhp(maxHp);
+					lobbyPlayerInfo.mutable_statinfo()->set_attack(attack);
+					lobbyPlayerInfo.mutable_statinfo()->set_speed(speed);
+					lobbyPlayerInfo.mutable_statinfo()->set_totalexp(totalExp);
+					_lobbyPlayerInfos.push_back(lobbyPlayerInfo);
+				}
+			}
+			//	계정이 없는 경우
+			else
+			{
+				DBHelper<1, 1> dbHepler(dbConnection, L"EXEC usp_CreateAccount ?");
+				auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
+				dbHepler.BindParam(0, name.c_str());
+				dbHepler.BindCol(0, accountDbId);
+
+				ASSERT(dbHepler.Execute());
+				while (dbHepler.Fetch())
+					_accountDbId = accountDbId;
+			}
+
+			GDBConnectionPool->Push(L"GameServerDB", dbConnection);
+
+			Protocol::S_LOGIN loginSendPacket;
+			loginSendPacket.set_loginok(1);
+			for (auto& lobbyPlayerInfo : _lobbyPlayerInfos)
+			{
+				auto addLobbyPlayerInfo = loginSendPacket.add_lobbyplayers();
+				addLobbyPlayerInfo->MergeFrom(lobbyPlayerInfo);
+			}
+
+			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(loginSendPacket);
+			Send(sendBuffer);
+
+			_clientGameState = Protocol::ClientGameState::CLIENT_STATE_LOBBY;
 		}
-
-		GDBConnectionPool->Push(L"GameServerDB", dbConnection);
-
-		Protocol::S_LOGIN loginSendPacket;
-		loginSendPacket.set_loginok(1);
-		for (auto& lobbyPlayerInfo : _lobbyPlayerInfos)
+		//	인증 실패..
+		else
 		{
-			auto addLobbyPlayerInfo = loginSendPacket.add_lobbyplayers();
-			addLobbyPlayerInfo->MergeFrom(lobbyPlayerInfo);
+			//	..	로그인한 너는 누구냐?
 		}
-
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(loginSendPacket);
-		Send(sendBuffer);
-
-		_clientGameState = Protocol::ClientGameState::CLIENT_STATE_LOBBY;
 	}
 }
 
@@ -204,7 +244,6 @@ void ClientSession::CreatePlayer(Protocol::C_CREATE_PLAYER& createPlayerPacket)
 			const auto& statData = DataManager::FindStatData(1);
 			DBHelper<8, 1> dbHepler(dbConnection, L"EXEC usp_InsertPlayer ?, ?, ?, ?, ?, ?, ?, ?");
 
-			auto name = UtilityHelper::ConvertUTF8ToUnicode(createPlayerPacket.name());
 			int32 level = statData.level();
 			int32 hp = statData.hp();
 			int32 maxHp = statData.maxhp();

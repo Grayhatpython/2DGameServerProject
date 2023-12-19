@@ -14,7 +14,7 @@ public:
 	virtual void			Update(float deltaTime);
 
 protected:
-	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 }, float scale = 1.f);
+	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{ 0, 0 });
 
 public:
 	virtual bool			IsInRange(const Vector2Int& position) override;

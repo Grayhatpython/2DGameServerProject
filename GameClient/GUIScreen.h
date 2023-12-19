@@ -36,9 +36,9 @@ public:
 
 protected:
 	//	From Center
-	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0, 0}, float scale = 1.f);
+	virtual void			DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0, 0});
 	//	From First
-	virtual void			DrawTextureFromFirst(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0, 0}, float scale = 1.f);
+	virtual void			DrawTextureFromFirst(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset = Vector2Int{0, 0});
 
 public:
 	void					SetState(GUIState state);

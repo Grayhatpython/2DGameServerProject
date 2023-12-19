@@ -318,6 +318,12 @@
     <ClInclude Include="GUIInventoryItem.h" />
     <ClInclude Include="GUILable.h" />
     <ClInclude Include="GUILoginForm.h" />
+    <ClInclude Include="GUILoginOrRegisterFailedBox.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GUIManager.h" />
     <ClInclude Include="GUIScreen.h" />
     <ClInclude Include="GUIScrollBar.h" />
@@ -468,6 +474,12 @@
     <ClCompile Include="GUIInventoryItem.cpp" />
     <ClCompile Include="GUILable.cpp" />
     <ClCompile Include="GUILoginForm.cpp" />
+    <ClCompile Include="GUILoginOrRegisterFailedBox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="GUIScreen.cpp" />
     <ClCompile Include="GUIScrollBar.cpp" />

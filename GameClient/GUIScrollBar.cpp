@@ -36,7 +36,7 @@ void GUIScrollBar::Update(float deltaTime)
 
 }
 
-void GUIScrollBar::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUIScrollBar::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
@@ -46,8 +46,8 @@ void GUIScrollBar::DrawTexture(Texture* texture, const Vector2Int& position, con
 		value = _value;
 
 	SDL_Rect dstrect;
-	dstrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	dstrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	dstrect.x = drawPosX;
 	dstrect.y = drawPosY - value;
 

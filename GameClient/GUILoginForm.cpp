@@ -45,6 +45,11 @@ GUILoginForm::~GUILoginForm()
 		delete _titleText;
 		_titleText = nullptr;
 	}
+	if (_loginOrRegisterFailedText)
+	{
+		delete _loginOrRegisterFailedText;
+		_loginOrRegisterFailedText = nullptr;
+	}
 	if (_nameBackgroundImage)
 	{
 		delete _nameBackgroundImage;
@@ -65,13 +70,19 @@ void GUILoginForm::Clear()
 
 void GUILoginForm::Initialize()
 {
-	_titleText = new GUILable(L"Inventory Title");
-	//_titleText->Initialize();
+	_titleText = new GUILable();
 	_titleText->SetFont(GAssetManager->GetFont("../Assets/Font/font_Bold.ttf"));
 	_titleText->SetText(L"Kingdom");
 	Texture* fontTexture = _titleText->GetFontTexture();
 	if (fontTexture)
 		_titleText->SetPosition(Vector2Int{ _position.x + 5, _position.y - 70});
+	fontTexture = nullptr;
+
+	_loginOrRegisterFailedText = new GUILable();
+	_loginOrRegisterFailedText->SetFont(GAssetManager->GetFont("../Assets/Font/font_Bold.ttf"));
+	fontTexture = _loginOrRegisterFailedText->GetFontTexture();
+	if (fontTexture)
+		_loginOrRegisterFailedText->SetPosition(Vector2Int{ _position.x + 5, _position.y + 110});
 
 	_nameBackgroundImage = new GUIImage();
 	_nameBackgroundImage->SetBackGround(GAssetManager->GetTexture("../Assets/GUI/loginTextarea.png"));
@@ -124,6 +135,9 @@ void GUILoginForm::Render(const Vector2Int& cameraOffset)
 {
 	if (_titleText)
 		_titleText->Render(cameraOffset);
+
+	if (_loginOrRegisterFailedText)
+		_loginOrRegisterFailedText->Render(cameraOffset);
 
 	if (_nameBackgroundImage)
 		_nameBackgroundImage->Render(cameraOffset);
@@ -208,14 +222,25 @@ void GUILoginForm::OnMouseOver(const Vector2Int& position)
 		_register->SetMouseOvered(false);
 }
 
+void GUILoginForm::SetLoginOrRegisterFailedText(const std::wstring& text)
+{
+	_loginOrRegisterFailedText->SetText(text, 16, COLOR_RED);
+}
+
 void GUILoginForm::OnClickLoginButton()
 {
 	if (_name->IsTextEmpty() || _password->IsTextEmpty())
+	{
+		_loginOrRegisterFailedText->SetText(L"Please enter your login information", 16, COLOR_RED);
 		return;
+	}
 
 	Protocol::L_C_LOGIN_ACCOUNT loginAccountSendPacket;
 	auto name = UtilityHelper::ConvertUnicodeToUTF8(_name->GetText());
 	auto password = UtilityHelper::ConvertUnicodeToUTF8(_password->GetText());
+
+	GNetworkManager->SetAccountName(_name->GetText());
+
 	loginAccountSendPacket.set_name(name);
 	loginAccountSendPacket.set_password(password);
 	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginAccountSendPacket);
@@ -225,7 +250,10 @@ void GUILoginForm::OnClickLoginButton()
 void GUILoginForm::OnClickRegisterButton()
 {
 	if (_name->IsTextEmpty() || _password->IsTextEmpty())
+	{
+		_loginOrRegisterFailedText->SetText(L"Please enter your register information", 16, COLOR_RED);
 		return;
+	}
 
 	Protocol::L_C_CREATE_ACCOUNT createAccountSendPacket;
 	auto name = UtilityHelper::ConvertUnicodeToUTF8(_name->GetText());

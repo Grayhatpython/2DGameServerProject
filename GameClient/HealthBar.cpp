@@ -76,17 +76,17 @@ void HealthBar::SetOwner(std::weak_ptr<Creature> owner)
 	SetHealthBarRatio();
 }
 
-void HealthBar::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void HealthBar::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
 
-	int32 width = static_cast<int32>(texture->GetWidth() * scale);
+	int32 width = static_cast<int32>(texture->GetWidth() * _scale);
 	float calcWidthFromRatio = width * _ratio;
 
 	SDL_Rect dstrect;
 	dstrect.w = static_cast<int32>(calcWidthFromRatio);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	dstrect.x = drawPosX - width / 2;
 	dstrect.y = drawPosY - dstrect.h / 2;
 

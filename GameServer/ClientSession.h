@@ -7,7 +7,7 @@ class ClientSession : public PacketSession
 public:
 	virtual ~ClientSession()
 	{
-		std::cout << "~ClientSession" << std::endl;
+		std::cout << _accountDbId << " ~ClientSession" << std::endl;
 	}
 
 public:

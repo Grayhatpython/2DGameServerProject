@@ -206,7 +206,7 @@ void DBProcess::UpdateGameServerInfo()
 	if (serverInfoUpdateTick > ::GetTickCount64())
 		return;
 
-	serverInfoUpdateTick = ::GetTickCount64() + 30000;
+	serverInfoUpdateTick = ::GetTickCount64() + 60000;
 
 	{
 		auto dbConnection = GDBConnectionPool->Pop(L"MasterDB");

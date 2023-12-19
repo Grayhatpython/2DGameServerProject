@@ -161,7 +161,7 @@ void GUIChatBox::OnSendChatMessage()
 	GNetworkManager->Send(chatSendPacket);
 }
 
-void GUIChatBox::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUIChatBox::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
@@ -172,14 +172,14 @@ void GUIChatBox::DrawTexture(Texture* texture, const Vector2Int& position, const
 		offset = static_cast<int32>(_offset * _scrollbar->GetRation());
 
 	SDL_Rect srcrect;
-	srcrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	srcrect.h = static_cast<int32>(texture->GetHeight() * scale) - _offset;
+	srcrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	srcrect.h = static_cast<int32>(texture->GetHeight() * _scale) - _offset;
 	srcrect.x = 0;
 	srcrect.y = offset;
 
 	SDL_Rect dstrect;
-	dstrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale) - _offset;
+	dstrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale) - _offset;
 	dstrect.x = drawPosX - _background->GetWidth() / 2 + 4;
 	dstrect.y = drawPosY - _background->GetWidth() / 2 + 15;
 

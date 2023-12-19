@@ -197,6 +197,29 @@ BEGIN
 END
 GO
 
+ IF EXISTS ( SELECT * FROM sys.objects 
+			WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('usp_SelectAccountToken'))
+	DROP PROCEDURE usp_SelectAccountToken
+GO
+
+CREATE PROCEDURE usp_SelectAccountToken
+	@accountId	INT,
+	@token		INT
+AS
+BEGIN
+	DECLARE @findAuthId AS INT;
+
+	SET @findAuthId = (SELECT authId	
+						FROM Auth												
+						WHERE accountId = @accountId AND token = @token)
+
+	IF @findAuthId IS NOT NULL
+		SELECT @findAuthId
+	ELSE
+		SELECT 0;
+END
+GO
+
 DBCC CHECKIDENT(Auth, reseed, 0);
 DBCC CHECKIDENT(GameServer, reseed, 0);
 GO

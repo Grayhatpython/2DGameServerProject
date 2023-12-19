@@ -16,6 +16,7 @@ Session::~Session()
 }
 
 //	sendBuffer Ref = 2
+//	Default Send Packet Only Push
 void Session::Send(std::shared_ptr<SendBuffer> sendBuffer, bool onlyPush)
 {
 	if (IsConnected() == false)

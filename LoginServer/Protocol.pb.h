@@ -951,12 +951,13 @@ class L_S_LOGIN_ACCOUNT final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kServerInfosFieldNumber = 4,
+    kServerInfosFieldNumber = 5,
+    kLoginFailedReasonFieldNumber = 2,
     kLoginOkFieldNumber = 1,
-    kAccountIdFieldNumber = 2,
-    kTokenFieldNumber = 3,
+    kAccountIdFieldNumber = 3,
+    kTokenFieldNumber = 4,
   };
-  // repeated .Protocol.ServerInfo serverInfos = 4;
+  // repeated .Protocol.ServerInfo serverInfos = 5;
   int serverinfos_size() const;
   private:
   int _internal_serverinfos_size() const;
@@ -974,6 +975,20 @@ class L_S_LOGIN_ACCOUNT final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerInfo >&
       serverinfos() const;
 
+  // string loginFailedReason = 2;
+  void clear_loginfailedreason();
+  const std::string& loginfailedreason() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_loginfailedreason(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_loginfailedreason();
+  PROTOBUF_NODISCARD std::string* release_loginfailedreason();
+  void set_allocated_loginfailedreason(std::string* loginfailedreason);
+  private:
+  const std::string& _internal_loginfailedreason() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_loginfailedreason(const std::string& value);
+  std::string* _internal_mutable_loginfailedreason();
+  public:
+
   // bool loginOk = 1;
   void clear_loginok();
   bool loginok() const;
@@ -983,7 +998,7 @@ class L_S_LOGIN_ACCOUNT final :
   void _internal_set_loginok(bool value);
   public:
 
-  // int32 accountId = 2;
+  // int32 accountId = 3;
   void clear_accountid();
   int32_t accountid() const;
   void set_accountid(int32_t value);
@@ -992,7 +1007,7 @@ class L_S_LOGIN_ACCOUNT final :
   void _internal_set_accountid(int32_t value);
   public:
 
-  // int32 token = 3;
+  // int32 token = 4;
   void clear_token();
   int32_t token() const;
   void set_token(int32_t value);
@@ -1010,6 +1025,7 @@ class L_S_LOGIN_ACCOUNT final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerInfo > serverinfos_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loginfailedreason_;
     bool loginok_;
     int32_t accountid_;
     int32_t token_;
@@ -1295,6 +1311,8 @@ class C_LOGIN final :
 
   enum : int {
     kUniqueIdFieldNumber = 1,
+    kTokenFieldNumber = 2,
+    kAccountIdFieldNumber = 3,
   };
   // string uniqueId = 1;
   void clear_uniqueid();
@@ -1310,6 +1328,24 @@ class C_LOGIN final :
   std::string* _internal_mutable_uniqueid();
   public:
 
+  // int32 token = 2;
+  void clear_token();
+  int32_t token() const;
+  void set_token(int32_t value);
+  private:
+  int32_t _internal_token() const;
+  void _internal_set_token(int32_t value);
+  public:
+
+  // int32 accountId = 3;
+  void clear_accountid();
+  int32_t accountid() const;
+  void set_accountid(int32_t value);
+  private:
+  int32_t _internal_accountid() const;
+  void _internal_set_accountid(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_LOGIN)
  private:
   class _Internal;
@@ -1319,6 +1355,8 @@ class C_LOGIN final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uniqueid_;
+    int32_t token_;
+    int32_t accountid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -5801,7 +5839,57 @@ inline void L_S_LOGIN_ACCOUNT::set_loginok(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.L_S_LOGIN_ACCOUNT.loginOk)
 }
 
-// int32 accountId = 2;
+// string loginFailedReason = 2;
+inline void L_S_LOGIN_ACCOUNT::clear_loginfailedreason() {
+  _impl_.loginfailedreason_.ClearToEmpty();
+}
+inline const std::string& L_S_LOGIN_ACCOUNT::loginfailedreason() const {
+  // @@protoc_insertion_point(field_get:Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason)
+  return _internal_loginfailedreason();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void L_S_LOGIN_ACCOUNT::set_loginfailedreason(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.loginfailedreason_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason)
+}
+inline std::string* L_S_LOGIN_ACCOUNT::mutable_loginfailedreason() {
+  std::string* _s = _internal_mutable_loginfailedreason();
+  // @@protoc_insertion_point(field_mutable:Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason)
+  return _s;
+}
+inline const std::string& L_S_LOGIN_ACCOUNT::_internal_loginfailedreason() const {
+  return _impl_.loginfailedreason_.Get();
+}
+inline void L_S_LOGIN_ACCOUNT::_internal_set_loginfailedreason(const std::string& value) {
+  
+  _impl_.loginfailedreason_.Set(value, GetArenaForAllocation());
+}
+inline std::string* L_S_LOGIN_ACCOUNT::_internal_mutable_loginfailedreason() {
+  
+  return _impl_.loginfailedreason_.Mutable(GetArenaForAllocation());
+}
+inline std::string* L_S_LOGIN_ACCOUNT::release_loginfailedreason() {
+  // @@protoc_insertion_point(field_release:Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason)
+  return _impl_.loginfailedreason_.Release();
+}
+inline void L_S_LOGIN_ACCOUNT::set_allocated_loginfailedreason(std::string* loginfailedreason) {
+  if (loginfailedreason != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.loginfailedreason_.SetAllocated(loginfailedreason, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.loginfailedreason_.IsDefault()) {
+    _impl_.loginfailedreason_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason)
+}
+
+// int32 accountId = 3;
 inline void L_S_LOGIN_ACCOUNT::clear_accountid() {
   _impl_.accountid_ = 0;
 }
@@ -5821,7 +5909,7 @@ inline void L_S_LOGIN_ACCOUNT::set_accountid(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.L_S_LOGIN_ACCOUNT.accountId)
 }
 
-// int32 token = 3;
+// int32 token = 4;
 inline void L_S_LOGIN_ACCOUNT::clear_token() {
   _impl_.token_ = 0;
 }
@@ -5841,7 +5929,7 @@ inline void L_S_LOGIN_ACCOUNT::set_token(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.L_S_LOGIN_ACCOUNT.token)
 }
 
-// repeated .Protocol.ServerInfo serverInfos = 4;
+// repeated .Protocol.ServerInfo serverInfos = 5;
 inline int L_S_LOGIN_ACCOUNT::_internal_serverinfos_size() const {
   return _impl_.serverinfos_.size();
 }
@@ -5984,6 +6072,46 @@ inline void C_LOGIN::set_allocated_uniqueid(std::string* uniqueid) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.uniqueId)
+}
+
+// int32 token = 2;
+inline void C_LOGIN::clear_token() {
+  _impl_.token_ = 0;
+}
+inline int32_t C_LOGIN::_internal_token() const {
+  return _impl_.token_;
+}
+inline int32_t C_LOGIN::token() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.token)
+  return _internal_token();
+}
+inline void C_LOGIN::_internal_set_token(int32_t value) {
+  
+  _impl_.token_ = value;
+}
+inline void C_LOGIN::set_token(int32_t value) {
+  _internal_set_token(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.token)
+}
+
+// int32 accountId = 3;
+inline void C_LOGIN::clear_accountid() {
+  _impl_.accountid_ = 0;
+}
+inline int32_t C_LOGIN::_internal_accountid() const {
+  return _impl_.accountid_;
+}
+inline int32_t C_LOGIN::accountid() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.accountId)
+  return _internal_accountid();
+}
+inline void C_LOGIN::_internal_set_accountid(int32_t value) {
+  
+  _impl_.accountid_ = value;
+}
+inline void C_LOGIN::set_accountid(int32_t value) {
+  _internal_set_accountid(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.accountId)
 }
 
 // -------------------------------------------------------------------

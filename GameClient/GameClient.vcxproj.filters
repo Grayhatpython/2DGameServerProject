@@ -300,6 +300,9 @@
     <ClCompile Include="GUIServerSelectionForm.cpp">
       <Filter>GameContents\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="GUILoginOrRegisterFailedBox.cpp">
+      <Filter>GameContents\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -552,6 +555,9 @@
       <Filter>GameContents\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIServerSelectionForm.h">
+      <Filter>GameContents\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUILoginOrRegisterFailedBox.h">
       <Filter>GameContents\GUI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -113,11 +113,11 @@ void Game::Run()
 
 	//	TODO
 	{
-		/*auto loginGameScene = std::make_shared<LoginGameScene>();
-		GGameSceneManager->SetGameScene(loginGameScene);*/
+		auto loginGameScene = std::make_shared<LoginGameScene>();
+		GGameSceneManager->SetGameScene(loginGameScene);
 
-		auto playGameScene = std::make_shared<PlayGameScene>();
-		GGameSceneManager->SetGameScene(playGameScene);
+		/*auto playGameScene = std::make_shared<PlayGameScene>();
+		GGameSceneManager->SetGameScene(playGameScene);*/
 	}
 
 	while (true)

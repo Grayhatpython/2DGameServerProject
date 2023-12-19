@@ -78,6 +78,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR L_S_LOGIN_ACCOUNT::L_S_LOGIN_ACCOUNT(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.serverinfos_)*/{}
+  , /*decltype(_impl_.loginfailedreason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.loginok_)*/false
   , /*decltype(_impl_.accountid_)*/0
   , /*decltype(_impl_.token_)*/0
@@ -107,6 +108,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C_LOGIN::C_LOGIN(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.uniqueid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.token_)*/0
+  , /*decltype(_impl_.accountid_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C_LOGINDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C_LOGINDefaultTypeInternal()
@@ -517,6 +520,7 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::L_S_LOGIN_ACCOUNT, _impl_.loginok_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::L_S_LOGIN_ACCOUNT, _impl_.loginfailedreason_),
   PROTOBUF_FIELD_OFFSET(::Protocol::L_S_LOGIN_ACCOUNT, _impl_.accountid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::L_S_LOGIN_ACCOUNT, _impl_.token_),
   PROTOBUF_FIELD_OFFSET(::Protocol::L_S_LOGIN_ACCOUNT, _impl_.serverinfos_),
@@ -534,6 +538,8 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::C_LOGIN, _impl_.uniqueid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_LOGIN, _impl_.token_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_LOGIN, _impl_.accountid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_LOGIN, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -738,35 +744,35 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 15, -1, -1, sizeof(::Protocol::L_S_CREATE_ACCOUNT)},
   { 22, -1, -1, sizeof(::Protocol::L_C_LOGIN_ACCOUNT)},
   { 30, -1, -1, sizeof(::Protocol::L_S_LOGIN_ACCOUNT)},
-  { 40, -1, -1, sizeof(::Protocol::S_CONNECTED)},
-  { 47, -1, -1, sizeof(::Protocol::C_LOGIN)},
-  { 54, -1, -1, sizeof(::Protocol::S_LOGIN)},
-  { 62, -1, -1, sizeof(::Protocol::C_CREATE_PLAYER)},
-  { 69, -1, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
-  { 77, -1, -1, sizeof(::Protocol::C_ENTER_GAME)},
-  { 84, -1, -1, sizeof(::Protocol::S_ENTER_GAME)},
-  { 91, -1, -1, sizeof(::Protocol::S_LEAVE_GAME)},
-  { 97, -1, -1, sizeof(::Protocol::S_ITEM_LIST)},
-  { 104, -1, -1, sizeof(::Protocol::S_ADD_ITEM)},
-  { 111, -1, -1, sizeof(::Protocol::C_EQUIP_ITEM)},
-  { 119, -1, -1, sizeof(::Protocol::S_EQUIP_ITEM)},
-  { 127, -1, -1, sizeof(::Protocol::S_SPAWN)},
-  { 134, -1, -1, sizeof(::Protocol::S_DESPAWN)},
-  { 141, -1, -1, sizeof(::Protocol::C_MOVE)},
-  { 148, -1, -1, sizeof(::Protocol::S_MOVE)},
-  { 156, -1, -1, sizeof(::Protocol::C_SKILL)},
-  { 163, -1, -1, sizeof(::Protocol::S_SKILL)},
-  { 171, -1, -1, sizeof(::Protocol::S_CHANGE_HP)},
-  { 179, -1, -1, sizeof(::Protocol::S_CHANGE_STAT)},
-  { 186, -1, -1, sizeof(::Protocol::S_DEATH)},
-  { 194, -1, -1, sizeof(::Protocol::C_CHANGE_STATE)},
-  { 201, -1, -1, sizeof(::Protocol::S_CHANGE_STATE)},
-  { 209, -1, -1, sizeof(::Protocol::C_CHANGE_MOVE_DIR)},
-  { 216, -1, -1, sizeof(::Protocol::S_CHANGE_MOVE_DIR)},
-  { 224, -1, -1, sizeof(::Protocol::C_CHAT)},
-  { 231, -1, -1, sizeof(::Protocol::S_CHAT)},
-  { 239, -1, -1, sizeof(::Protocol::S_PING)},
-  { 245, -1, -1, sizeof(::Protocol::C_PONG)},
+  { 41, -1, -1, sizeof(::Protocol::S_CONNECTED)},
+  { 48, -1, -1, sizeof(::Protocol::C_LOGIN)},
+  { 57, -1, -1, sizeof(::Protocol::S_LOGIN)},
+  { 65, -1, -1, sizeof(::Protocol::C_CREATE_PLAYER)},
+  { 72, -1, -1, sizeof(::Protocol::S_CREATE_PLAYER)},
+  { 80, -1, -1, sizeof(::Protocol::C_ENTER_GAME)},
+  { 87, -1, -1, sizeof(::Protocol::S_ENTER_GAME)},
+  { 94, -1, -1, sizeof(::Protocol::S_LEAVE_GAME)},
+  { 100, -1, -1, sizeof(::Protocol::S_ITEM_LIST)},
+  { 107, -1, -1, sizeof(::Protocol::S_ADD_ITEM)},
+  { 114, -1, -1, sizeof(::Protocol::C_EQUIP_ITEM)},
+  { 122, -1, -1, sizeof(::Protocol::S_EQUIP_ITEM)},
+  { 130, -1, -1, sizeof(::Protocol::S_SPAWN)},
+  { 137, -1, -1, sizeof(::Protocol::S_DESPAWN)},
+  { 144, -1, -1, sizeof(::Protocol::C_MOVE)},
+  { 151, -1, -1, sizeof(::Protocol::S_MOVE)},
+  { 159, -1, -1, sizeof(::Protocol::C_SKILL)},
+  { 166, -1, -1, sizeof(::Protocol::S_SKILL)},
+  { 174, -1, -1, sizeof(::Protocol::S_CHANGE_HP)},
+  { 182, -1, -1, sizeof(::Protocol::S_CHANGE_STAT)},
+  { 189, -1, -1, sizeof(::Protocol::S_DEATH)},
+  { 197, -1, -1, sizeof(::Protocol::C_CHANGE_STATE)},
+  { 204, -1, -1, sizeof(::Protocol::S_CHANGE_STATE)},
+  { 212, -1, -1, sizeof(::Protocol::C_CHANGE_MOVE_DIR)},
+  { 219, -1, -1, sizeof(::Protocol::S_CHANGE_MOVE_DIR)},
+  { 227, -1, -1, sizeof(::Protocol::C_CHAT)},
+  { 234, -1, -1, sizeof(::Protocol::S_CHAT)},
+  { 242, -1, -1, sizeof(::Protocol::S_PING)},
+  { 248, -1, -1, sizeof(::Protocol::C_PONG)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -812,45 +818,46 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\001(\t\"4\n\022L_C_CREATE_ACCOUNT\022\014\n\004name\030\001 \001(\t\022"
   "\020\n\010password\030\002 \001(\t\"&\n\022L_S_CREATE_ACCOUNT\022"
   "\020\n\010createOk\030\001 \001(\010\"3\n\021L_C_LOGIN_ACCOUNT\022\014"
-  "\n\004name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"q\n\021L_S_LO"
-  "GIN_ACCOUNT\022\017\n\007loginOk\030\001 \001(\010\022\021\n\taccountI"
-  "d\030\002 \001(\005\022\r\n\005token\030\003 \001(\005\022)\n\013serverInfos\030\004 "
-  "\003(\0132\024.Protocol.ServerInfo\"\033\n\013S_CONNECTED"
-  "\022\014\n\004name\030\001 \001(\t\"\033\n\007C_LOGIN\022\020\n\010uniqueId\030\001 "
-  "\001(\t\"K\n\007S_LOGIN\022\017\n\007loginOk\030\001 \001(\005\022/\n\014lobby"
-  "Players\030\002 \003(\0132\031.Protocol.LobbyPlayerInfo"
-  "\"\037\n\017C_CREATE_PLAYER\022\014\n\004name\030\001 \001(\t\"T\n\017S_C"
-  "REATE_PLAYER\022\020\n\010createOk\030\001 \001(\005\022/\n\014create"
-  "Player\030\002 \001(\0132\031.Protocol.LobbyPlayerInfo\""
-  "\034\n\014C_ENTER_GAME\022\014\n\004name\030\001 \001(\t\"3\n\014S_ENTER"
-  "_GAME\022#\n\006player\030\001 \001(\0132\023.Protocol.ActorIn"
-  "fo\"\016\n\014S_LEAVE_GAME\"4\n\013S_ITEM_LIST\022%\n\tite"
-  "mInfos\030\001 \003(\0132\022.Protocol.ItemInfo\"3\n\nS_AD"
-  "D_ITEM\022%\n\titemInfos\030\001 \003(\0132\022.Protocol.Ite"
-  "mInfo\"2\n\014C_EQUIP_ITEM\022\020\n\010itemDbId\030\001 \001(\005\022"
-  "\020\n\010equipped\030\002 \001(\010\"2\n\014S_EQUIP_ITEM\022\020\n\010ite"
-  "mDbId\030\001 \001(\005\022\020\n\010equipped\030\002 \001(\010\".\n\007S_SPAWN"
-  "\022#\n\006actors\030\001 \003(\0132\023.Protocol.ActorInfo\"\034\n"
-  "\tS_DESPAWN\022\017\n\007actorId\030\001 \003(\005\"6\n\006C_MOVE\022,\n"
-  "\014positionInfo\030\001 \001(\0132\026.Protocol.PositionI"
-  "nfo\"G\n\006S_MOVE\022\017\n\007actorId\030\001 \001(\005\022,\n\014positi"
-  "onInfo\030\002 \001(\0132\026.Protocol.PositionInfo\"1\n\007"
-  "C_SKILL\022&\n\tskillInfo\030\001 \001(\0132\023.Protocol.Sk"
-  "illInfo\"B\n\007S_SKILL\022\017\n\007actorId\030\001 \001(\005\022&\n\ts"
-  "killInfo\030\002 \001(\0132\023.Protocol.SkillInfo\"*\n\013S"
-  "_CHANGE_HP\022\017\n\007actorId\030\001 \001(\005\022\n\n\002hp\030\002 \001(\005\""
-  "5\n\rS_CHANGE_STAT\022$\n\010statInfo\030\001 \001(\0132\022.Pro"
-  "tocol.StatInfo\".\n\007S_DEATH\022\017\n\007actorId\030\001 \001"
-  "(\005\022\022\n\nattackerId\030\002 \001(\005\"2\n\016C_CHANGE_STATE"
-  "\022 \n\005state\030\001 \001(\0162\021.Protocol.AIState\"C\n\016S_"
-  "CHANGE_STATE\022\017\n\007actorId\030\001 \001(\005\022 \n\005state\030\002"
-  " \001(\0162\021.Protocol.AIState\"7\n\021C_CHANGE_MOVE"
-  "_DIR\022\"\n\007moveDir\030\002 \001(\0162\021.Protocol.MoveDir"
-  "\"H\n\021S_CHANGE_MOVE_DIR\022\017\n\007actorId\030\001 \001(\005\022\""
-  "\n\007moveDir\030\002 \001(\0162\021.Protocol.MoveDir\"\026\n\006C_"
-  "CHAT\022\014\n\004chat\030\001 \001(\t\"\'\n\006S_CHAT\022\017\n\007actorId\030"
-  "\001 \001(\005\022\014\n\004chat\030\002 \001(\t\"\010\n\006S_PING\"\010\n\006C_PONGb"
-  "\006proto3"
+  "\n\004name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"\214\001\n\021L_S_L"
+  "OGIN_ACCOUNT\022\017\n\007loginOk\030\001 \001(\010\022\031\n\021loginFa"
+  "iledReason\030\002 \001(\t\022\021\n\taccountId\030\003 \001(\005\022\r\n\005t"
+  "oken\030\004 \001(\005\022)\n\013serverInfos\030\005 \003(\0132\024.Protoc"
+  "ol.ServerInfo\"\033\n\013S_CONNECTED\022\014\n\004name\030\001 \001"
+  "(\t\"=\n\007C_LOGIN\022\020\n\010uniqueId\030\001 \001(\t\022\r\n\005token"
+  "\030\002 \001(\005\022\021\n\taccountId\030\003 \001(\005\"K\n\007S_LOGIN\022\017\n\007"
+  "loginOk\030\001 \001(\005\022/\n\014lobbyPlayers\030\002 \003(\0132\031.Pr"
+  "otocol.LobbyPlayerInfo\"\037\n\017C_CREATE_PLAYE"
+  "R\022\014\n\004name\030\001 \001(\t\"T\n\017S_CREATE_PLAYER\022\020\n\010cr"
+  "eateOk\030\001 \001(\005\022/\n\014createPlayer\030\002 \001(\0132\031.Pro"
+  "tocol.LobbyPlayerInfo\"\034\n\014C_ENTER_GAME\022\014\n"
+  "\004name\030\001 \001(\t\"3\n\014S_ENTER_GAME\022#\n\006player\030\001 "
+  "\001(\0132\023.Protocol.ActorInfo\"\016\n\014S_LEAVE_GAME"
+  "\"4\n\013S_ITEM_LIST\022%\n\titemInfos\030\001 \003(\0132\022.Pro"
+  "tocol.ItemInfo\"3\n\nS_ADD_ITEM\022%\n\titemInfo"
+  "s\030\001 \003(\0132\022.Protocol.ItemInfo\"2\n\014C_EQUIP_I"
+  "TEM\022\020\n\010itemDbId\030\001 \001(\005\022\020\n\010equipped\030\002 \001(\010\""
+  "2\n\014S_EQUIP_ITEM\022\020\n\010itemDbId\030\001 \001(\005\022\020\n\010equ"
+  "ipped\030\002 \001(\010\".\n\007S_SPAWN\022#\n\006actors\030\001 \003(\0132\023"
+  ".Protocol.ActorInfo\"\034\n\tS_DESPAWN\022\017\n\007acto"
+  "rId\030\001 \003(\005\"6\n\006C_MOVE\022,\n\014positionInfo\030\001 \001("
+  "\0132\026.Protocol.PositionInfo\"G\n\006S_MOVE\022\017\n\007a"
+  "ctorId\030\001 \001(\005\022,\n\014positionInfo\030\002 \001(\0132\026.Pro"
+  "tocol.PositionInfo\"1\n\007C_SKILL\022&\n\tskillIn"
+  "fo\030\001 \001(\0132\023.Protocol.SkillInfo\"B\n\007S_SKILL"
+  "\022\017\n\007actorId\030\001 \001(\005\022&\n\tskillInfo\030\002 \001(\0132\023.P"
+  "rotocol.SkillInfo\"*\n\013S_CHANGE_HP\022\017\n\007acto"
+  "rId\030\001 \001(\005\022\n\n\002hp\030\002 \001(\005\"5\n\rS_CHANGE_STAT\022$"
+  "\n\010statInfo\030\001 \001(\0132\022.Protocol.StatInfo\".\n\007"
+  "S_DEATH\022\017\n\007actorId\030\001 \001(\005\022\022\n\nattackerId\030\002"
+  " \001(\005\"2\n\016C_CHANGE_STATE\022 \n\005state\030\001 \001(\0162\021."
+  "Protocol.AIState\"C\n\016S_CHANGE_STATE\022\017\n\007ac"
+  "torId\030\001 \001(\005\022 \n\005state\030\002 \001(\0162\021.Protocol.AI"
+  "State\"7\n\021C_CHANGE_MOVE_DIR\022\"\n\007moveDir\030\002 "
+  "\001(\0162\021.Protocol.MoveDir\"H\n\021S_CHANGE_MOVE_"
+  "DIR\022\017\n\007actorId\030\001 \001(\005\022\"\n\007moveDir\030\002 \001(\0162\021."
+  "Protocol.MoveDir\"\026\n\006C_CHAT\022\014\n\004chat\030\001 \001(\t"
+  "\"\'\n\006S_CHAT\022\017\n\007actorId\030\001 \001(\005\022\014\n\004chat\030\002 \001("
+  "\t\"\010\n\006S_PING\"\010\n\006C_PONGb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -858,7 +865,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 1727, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 1789, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 34,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
@@ -1780,12 +1787,21 @@ L_S_LOGIN_ACCOUNT::L_S_LOGIN_ACCOUNT(const L_S_LOGIN_ACCOUNT& from)
   L_S_LOGIN_ACCOUNT* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.serverinfos_){from._impl_.serverinfos_}
+    , decltype(_impl_.loginfailedreason_){}
     , decltype(_impl_.loginok_){}
     , decltype(_impl_.accountid_){}
     , decltype(_impl_.token_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.loginfailedreason_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.loginfailedreason_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_loginfailedreason().empty()) {
+    _this->_impl_.loginfailedreason_.Set(from._internal_loginfailedreason(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.loginok_, &from._impl_.loginok_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.token_) -
     reinterpret_cast<char*>(&_impl_.loginok_)) + sizeof(_impl_.token_));
@@ -1798,11 +1814,16 @@ inline void L_S_LOGIN_ACCOUNT::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.serverinfos_){arena}
+    , decltype(_impl_.loginfailedreason_){}
     , decltype(_impl_.loginok_){false}
     , decltype(_impl_.accountid_){0}
     , decltype(_impl_.token_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.loginfailedreason_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.loginfailedreason_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 L_S_LOGIN_ACCOUNT::~L_S_LOGIN_ACCOUNT() {
@@ -1817,6 +1838,7 @@ L_S_LOGIN_ACCOUNT::~L_S_LOGIN_ACCOUNT() {
 inline void L_S_LOGIN_ACCOUNT::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.serverinfos_.~RepeatedPtrField();
+  _impl_.loginfailedreason_.Destroy();
 }
 
 void L_S_LOGIN_ACCOUNT::SetCachedSize(int size) const {
@@ -1830,6 +1852,7 @@ void L_S_LOGIN_ACCOUNT::Clear() {
   (void) cached_has_bits;
 
   _impl_.serverinfos_.Clear();
+  _impl_.loginfailedreason_.ClearToEmpty();
   ::memset(&_impl_.loginok_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.token_) -
       reinterpret_cast<char*>(&_impl_.loginok_)) + sizeof(_impl_.token_));
@@ -1850,32 +1873,42 @@ const char* L_S_LOGIN_ACCOUNT::_InternalParse(const char* ptr, ::_pbi::ParseCont
         } else
           goto handle_unusual;
         continue;
-      // int32 accountId = 2;
+      // string loginFailedReason = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_loginfailedreason();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 accountId = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.accountid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 token = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+      // int32 token = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.token_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated .Protocol.ServerInfo serverInfos = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+      // repeated .Protocol.ServerInfo serverInfos = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_serverinfos(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1914,24 +1947,34 @@ uint8_t* L_S_LOGIN_ACCOUNT::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_loginok(), target);
   }
 
-  // int32 accountId = 2;
+  // string loginFailedReason = 2;
+  if (!this->_internal_loginfailedreason().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_loginfailedreason().data(), static_cast<int>(this->_internal_loginfailedreason().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.L_S_LOGIN_ACCOUNT.loginFailedReason");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_loginfailedreason(), target);
+  }
+
+  // int32 accountId = 3;
   if (this->_internal_accountid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_accountid(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_accountid(), target);
   }
 
-  // int32 token = 3;
+  // int32 token = 4;
   if (this->_internal_token() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_token(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_token(), target);
   }
 
-  // repeated .Protocol.ServerInfo serverInfos = 4;
+  // repeated .Protocol.ServerInfo serverInfos = 5;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_serverinfos_size()); i < n; i++) {
     const auto& repfield = this->_internal_serverinfos(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1950,11 +1993,18 @@ size_t L_S_LOGIN_ACCOUNT::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Protocol.ServerInfo serverInfos = 4;
+  // repeated .Protocol.ServerInfo serverInfos = 5;
   total_size += 1UL * this->_internal_serverinfos_size();
   for (const auto& msg : this->_impl_.serverinfos_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string loginFailedReason = 2;
+  if (!this->_internal_loginfailedreason().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_loginfailedreason());
   }
 
   // bool loginOk = 1;
@@ -1962,12 +2012,12 @@ size_t L_S_LOGIN_ACCOUNT::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // int32 accountId = 2;
+  // int32 accountId = 3;
   if (this->_internal_accountid() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_accountid());
   }
 
-  // int32 token = 3;
+  // int32 token = 4;
   if (this->_internal_token() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_token());
   }
@@ -1991,6 +2041,9 @@ void L_S_LOGIN_ACCOUNT::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   (void) cached_has_bits;
 
   _this->_impl_.serverinfos_.MergeFrom(from._impl_.serverinfos_);
+  if (!from._internal_loginfailedreason().empty()) {
+    _this->_internal_set_loginfailedreason(from._internal_loginfailedreason());
+  }
   if (from._internal_loginok() != 0) {
     _this->_internal_set_loginok(from._internal_loginok());
   }
@@ -2016,8 +2069,14 @@ bool L_S_LOGIN_ACCOUNT::IsInitialized() const {
 
 void L_S_LOGIN_ACCOUNT::InternalSwap(L_S_LOGIN_ACCOUNT* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.serverinfos_.InternalSwap(&other->_impl_.serverinfos_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.loginfailedreason_, lhs_arena,
+      &other->_impl_.loginfailedreason_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(L_S_LOGIN_ACCOUNT, _impl_.token_)
       + sizeof(L_S_LOGIN_ACCOUNT::_impl_.token_)
@@ -2252,6 +2311,8 @@ C_LOGIN::C_LOGIN(const C_LOGIN& from)
   C_LOGIN* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.uniqueid_){}
+    , decltype(_impl_.token_){}
+    , decltype(_impl_.accountid_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2263,6 +2324,9 @@ C_LOGIN::C_LOGIN(const C_LOGIN& from)
     _this->_impl_.uniqueid_.Set(from._internal_uniqueid(), 
       _this->GetArenaForAllocation());
   }
+  ::memcpy(&_impl_.token_, &from._impl_.token_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.accountid_) -
+    reinterpret_cast<char*>(&_impl_.token_)) + sizeof(_impl_.accountid_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C_LOGIN)
 }
 
@@ -2272,6 +2336,8 @@ inline void C_LOGIN::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.uniqueid_){}
+    , decltype(_impl_.token_){0}
+    , decltype(_impl_.accountid_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.uniqueid_.InitDefault();
@@ -2305,6 +2371,9 @@ void C_LOGIN::Clear() {
   (void) cached_has_bits;
 
   _impl_.uniqueid_.ClearToEmpty();
+  ::memset(&_impl_.token_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.accountid_) -
+      reinterpret_cast<char*>(&_impl_.token_)) + sizeof(_impl_.accountid_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2321,6 +2390,22 @@ const char* C_LOGIN::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "Protocol.C_LOGIN.uniqueId"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 token = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.token_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 accountId = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.accountid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -2363,6 +2448,18 @@ uint8_t* C_LOGIN::_InternalSerialize(
         1, this->_internal_uniqueid(), target);
   }
 
+  // int32 token = 2;
+  if (this->_internal_token() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_token(), target);
+  }
+
+  // int32 accountId = 3;
+  if (this->_internal_accountid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_accountid(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2386,6 +2483,16 @@ size_t C_LOGIN::ByteSizeLong() const {
         this->_internal_uniqueid());
   }
 
+  // int32 token = 2;
+  if (this->_internal_token() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_token());
+  }
+
+  // int32 accountId = 3;
+  if (this->_internal_accountid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_accountid());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2406,6 +2513,12 @@ void C_LOGIN::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
 
   if (!from._internal_uniqueid().empty()) {
     _this->_internal_set_uniqueid(from._internal_uniqueid());
+  }
+  if (from._internal_token() != 0) {
+    _this->_internal_set_token(from._internal_token());
+  }
+  if (from._internal_accountid() != 0) {
+    _this->_internal_set_accountid(from._internal_accountid());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2430,6 +2543,12 @@ void C_LOGIN::InternalSwap(C_LOGIN* other) {
       &_impl_.uniqueid_, lhs_arena,
       &other->_impl_.uniqueid_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(C_LOGIN, _impl_.accountid_)
+      + sizeof(C_LOGIN::_impl_.accountid_)
+      - PROTOBUF_FIELD_OFFSET(C_LOGIN, _impl_.token_)>(
+          reinterpret_cast<char*>(&_impl_.token_),
+          reinterpret_cast<char*>(&other->_impl_.token_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C_LOGIN::GetMetadata() const {

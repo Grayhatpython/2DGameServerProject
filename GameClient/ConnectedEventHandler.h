@@ -25,9 +25,9 @@ public:
 
 private:
 	template<typename Ret, typename... Args>
-	static void DisconnectFunc(void* signal, void* callable)
+	static void DisconnectFunc(void* eventHandler, void* callable)
 	{
-		static_cast<EventHandler<Ret(Args...)>*>(signal)->UnBind(static_cast<CallableBase<Ret(Args...)>*>(callable));
+		static_cast<EventHandler<Ret(Args...)>*>(eventHandler)->UnBind(static_cast<CallableBase<Ret(Args...)>*>(callable));
 	}
 
 private:

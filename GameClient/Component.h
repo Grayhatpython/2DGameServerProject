@@ -1,6 +1,6 @@
 #pragma once
 
-#define COMPONENT_TYPE_DECLARATION( componet ) 									\
+#define COMPONENT_TYPE_DECLARATION( component ) 								\
 public:																			\
     static const std::size_t ComponentType;                                     \
     virtual bool IsSameType( const std::size_t componentType ) const override;	\

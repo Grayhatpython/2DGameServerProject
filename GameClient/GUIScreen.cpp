@@ -90,14 +90,14 @@ bool GUIScreen::IsInRange(const Vector2Int& position)
 	return leftTopX < position.x&& position.x < rightBottomX&& leftTopY < position.y&& position.y < rightBottomY;
 }
 
-void GUIScreen::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUIScreen::DrawTexture(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
 
 	SDL_Rect dstrect;
-	dstrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	dstrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	dstrect.x = drawPosX - dstrect.w / 2;
 	dstrect.y = drawPosY - dstrect.h / 2;
 
@@ -111,14 +111,14 @@ void GUIScreen::DrawTexture(Texture* texture, const Vector2Int& position, const 
 		SDL_FLIP_NONE);
 }
 
-void GUIScreen::DrawTextureFromFirst(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset, float scale)
+void GUIScreen::DrawTextureFromFirst(Texture* texture, const Vector2Int& position, const Vector2Int& cameraOffset)
 {
 	int32 drawPosX = static_cast<int32>(position.x - cameraOffset.x);
 	int32 drawPosY = static_cast<int32>(position.y - cameraOffset.y);
 
 	SDL_Rect dstrect;
-	dstrect.w = static_cast<int32>(texture->GetWidth() * scale);
-	dstrect.h = static_cast<int32>(texture->GetHeight() * scale);
+	dstrect.w = static_cast<int32>(texture->GetWidth() * _scale);
+	dstrect.h = static_cast<int32>(texture->GetHeight() * _scale);
 	dstrect.x = drawPosX;
 	dstrect.y = drawPosY;
 

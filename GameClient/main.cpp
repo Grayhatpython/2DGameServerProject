@@ -9,8 +9,8 @@
 
 int main()
 {
-	std::this_thread::sleep_for(3000ms);
-
+	//_CrtSetBreakAlloc(128725023);
+	std::this_thread::sleep_for(1000ms);
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	std::wcout.imbue(std::locale("korean"));
 

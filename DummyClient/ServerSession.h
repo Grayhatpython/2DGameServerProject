@@ -1,5 +1,6 @@
 #pragma once
 
+class MyPlayer;
 class ServerSession : public PacketSession
 {
 	friend class ServerSessionManager;
@@ -17,8 +18,12 @@ public:
 	virtual void	OnDisconnected() override;
 
 public:
-	int32			GetId() { return _id; }
+	int32						GetId() { return _id; }
+
+	void						SetMyPlayer(std::shared_ptr<MyPlayer> player) { _myPlayer = player; }
+	std::shared_ptr<MyPlayer>&	GetMyPlayer() { return _myPlayer; }
 
 private:
-	int32			_id = 0;
+	int32						_id = 0;
+	std::shared_ptr<MyPlayer>	_myPlayer;
 };

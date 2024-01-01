@@ -118,6 +118,15 @@
     <ClCompile Include="FieldOfView.cpp">
       <Filter>GameContents\Region\FieldOfView</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceCounter.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="RegionProcess.cpp">
+      <Filter>GameContents\Region</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -200,6 +209,15 @@
     </ClInclude>
     <ClInclude Include="FieldOfView.h">
       <Filter>GameContents\Region\FieldOfView</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceCounter.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="RegionProcess.h">
+      <Filter>GameContents\Region</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -117,10 +117,12 @@ std::vector<Vector2> Field::PathFinding(const Vector2& startPosition, const Vect
 		Position { -TILE_DISTANCE, 0},				//	LEFT
 		Position { 0, TILE_DISTANCE},				//	DOWN
 		Position { TILE_DISTANCE, 0},				//	RIGHT
+		/*
 		Position { -TILE_DISTANCE, -TILE_DISTANCE},	//	UP_LEFT
 		Position {-TILE_DISTANCE, TILE_DISTANCE},	//	DOWN_LEFT
 		Position {TILE_DISTANCE, TILE_DISTANCE},	//	DOWN_RIGHT
 		Position { TILE_DISTANCE, -TILE_DISTANCE}	//	UP_RIGHT
+		*/
 	};
 
 	int32 cost[] =
@@ -129,10 +131,12 @@ std::vector<Vector2> Field::PathFinding(const Vector2& startPosition, const Vect
 		STRAIGHT_COST,	//	LEFT
 		STRAIGHT_COST,	//	DOWN
 		STRAIGHT_COST,	//	RIGHT
+		/*
 		DIAGONAL_COST,	//	UP_LEFT
 		DIAGONAL_COST,	//	DOWN_LEFT
 		DIAGONAL_COST,	//	DOWN_RIGHT
 		DIAGONAL_COST	//	UP_RIGHT
+		*/
 	};
 
 	HashMap<Position, bool, PositionHash>		closedList;
@@ -334,6 +338,7 @@ bool Field::ModifyActorsMappingTableByMove(std::shared_ptr<Actor> actor, const V
 		}
 	}
 
+	//	Àá½Ã...
 	actor->SetPosition(movePosition);
 
 	return true;

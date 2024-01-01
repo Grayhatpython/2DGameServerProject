@@ -3,6 +3,7 @@
 
 #include "Zone.h"
 #include "Field.h"
+#include "ThreadPool.h"
 
 class Actor;
 class Player;
@@ -29,11 +30,13 @@ public:
 
 	void ChatMessage(std::shared_ptr<Player> player, Protocol::C_CHAT chatPacket);
 
+	void Position(std::shared_ptr<Player> player, Protocol::C_POSITION position);
+
 	void EquipItem(std::shared_ptr<Player> player, Protocol::C_EQUIP_ITEM equipItemPacket);
 	void BroadCast(const Vector2& position, std::shared_ptr<SendBuffer> sendBuffer);
 
 public:
-	void Update();
+	void Update(float deltaTime);
 	void Clear();
 
 public:
@@ -52,12 +55,25 @@ public:
 	int32											GetSplitZoneCount() { return _splitZoneCount; }
 	//	TODO	: 탐지 범위?
 	int32											GetDectionRange() { return 15; }
+	
+private:
+	//	Hp , Attack , Defence , position 
+	struct ActorSnapShot
+	{
+		Vector2 position{};
+	};
 
 private:
 	int32											_regionId = 0;
 	//	Ref 사이클 체크!
 	HashMap<int32, std::shared_ptr<Player>>			_players;
+	Vector<std::shared_ptr<Player>>					_updatePlayers;
+
 	HashMap<int32, std::shared_ptr<Monster>>		_monsters;
+	Vector<std::shared_ptr<Monster>>				_idleMonsters;
+	Vector<std::shared_ptr<Monster>>				_moveMonsters;
+	Vector<std::shared_ptr<Monster>>				_skillMonsters;
+
 	HashMap<int32, std::shared_ptr<Projectile>>		_projectiles;
 
 	Vector<int32>									_removePlayersId;
@@ -69,5 +85,6 @@ private:
 	//	TEMP
 	std::vector<std::vector<std::unique_ptr<Zone>>>	_zones;
 	int32											_splitZoneCount = 0;
+	ThreadPool										_updateThreadPool;
 };			
 

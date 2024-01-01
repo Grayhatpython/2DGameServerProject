@@ -35,6 +35,9 @@ void JobBaseObject::Execute()
 		for (int32 i = 0; i < processjobCount; i++)
 			jobs[i]->Execute();
 
+		break;
+
+		/*
 		if (_jobCount.fetch_sub(processjobCount) == processjobCount)
 		{
 			LCurrentJobBaseObject = nullptr;
@@ -49,6 +52,7 @@ void JobBaseObject::Execute()
 			GDistributeJobBaseObject->Push(shared_from_this());
 			break;
 		}
+		*/
 	}
 }
 

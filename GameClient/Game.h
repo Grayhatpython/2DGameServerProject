@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 
+#define POSITION_INFO_SEND_TICK 500
+
 #include "PlayGameScene.h"
 class Game
 {
@@ -20,5 +22,6 @@ private:
 private:
 	//	TEMP
 	uint64							_tickCount = 0;
+	uint64							_startTick = 0;
 	bool							_isRunning = false;
 };

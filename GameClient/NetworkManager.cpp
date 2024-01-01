@@ -8,6 +8,10 @@
 #include "NetworkService.h"
 #include "ServerPacketHandler.h"
 
+#include "ActorManager.h"
+#include "MyPlayer.h"
+#include "FSMComponent.h"
+
 NetworkManager* GNetworkManager = nullptr;
 
 NetworkManager::NetworkManager()
@@ -28,8 +32,8 @@ bool NetworkManager::Initialize()
 	LThreadId = ::GetCurrentThreadId();
 
 	_clientService = MakeShared<ClientService>(
-		NetworkAddress(L"127.0.0.1", 9999),			//	Login Server
-		//NetworkAddress(L"127.0.0.1", 8888),		//	Game Server
+		//NetworkAddress(L"127.0.0.1", 9999),			//	Login Server
+		NetworkAddress(L"127.0.0.1", 8888),		//	Game Server
 		MakeShared<IocpCore>(),
 		MakeShared<ServerSession>,	//	TODO : SessionManger
 		1
@@ -132,10 +136,9 @@ void NetworkManager::Clear()
 void NetworkManager::Send(std::shared_ptr<SendBuffer> sendBuffer)
 {
 	auto serverSession = GetServerSession();
-	ASSERT(serverSession);
 
 	if (serverSession)
-		serverSession->Send(sendBuffer, false);
+		serverSession->Send(sendBuffer);
 }
 
 void NetworkManager::PushRecvPacket(BYTE* buffer, int32 len)
@@ -143,6 +146,38 @@ void NetworkManager::PushRecvPacket(BYTE* buffer, int32 len)
 	WRITE_LOCK;
 	auto recvPacketInfo = ObjectPool<RecvPacketInfo>::MakeShared(buffer, len);
 	_recvPacketInfos.push(recvPacketInfo);
+}
+
+void NetworkManager::PositionInfoSend()
+{
+	auto myPlayer = GActorManager->GetMyPlayer();
+	if (myPlayer)
+	{
+		auto fsm = myPlayer->GetComponent<FSMComponent>();
+		ASSERT(fsm);
+
+		auto state = fsm->GetCurrentStateName();
+		if (state.compare(L"Idle") != 0)
+			return;
+
+		Protocol::C_POSITION positionPacket;
+		auto transform = myPlayer->GetComponent<TransformComponent>();
+		auto move = myPlayer->GetComponent<MoveComponent>();
+		ASSERT(transform);
+		ASSERT(move);
+		
+		//	ÀÏ´Ü ÁÂÇ¥¸¸
+		auto position = transform->GetPosition();
+		auto moveDir = move->GetMoveDir();
+
+		auto mutablePosition = positionPacket.mutable_positioninfo();
+		mutablePosition->set_positionx(position.x);
+		mutablePosition->set_positiony(position.y);
+		mutablePosition->set_movedir(moveDir);
+
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(positionPacket);
+		GNetworkManager->Send(sendBuffer);
+	}
 }
 
 void NetworkManager::PrcoessPackets()
@@ -173,4 +208,12 @@ void NetworkManager::PrcoessPackets()
 
 		ServerPacketHandler::PacketProcessing(serverSession, recvPacket->buffer, recvPacket->len);
 	}
+}
+
+void NetworkManager::FlushSend()
+{
+	auto serverSession = GetServerSession();
+
+	if (serverSession)
+		serverSession->FlushSend();
 }

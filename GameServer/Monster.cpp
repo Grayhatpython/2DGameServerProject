@@ -7,6 +7,8 @@
 #include "Random.h"
 #include "Inventory.h"
 #include "DataManager.h"
+#include "RegionManager.h"
+#include "RegionProcess.h"
 #include "ClientPacketHandler.h"
 
 #include "DBProcess.h"
@@ -36,7 +38,7 @@ void Monster::Initialize()
 
 }
 
-void Monster::Update()
+void Monster::Update(float deltaTime)
 {
 	auto state = GetState();
 	switch (state)
@@ -89,13 +91,55 @@ void Monster::OnDead(std::shared_ptr<Actor> attacker)
 	}
 }
 
+void Monster::ModifyMoveInfo()
+{
+	auto field = _region->GetField();
+	ASSERT(field);
+
+	/*auto regionProcess = GRegionManager->GetRegionProcess();
+	regionProcess->OnlyPushJobAndNotDistribute([field, this, path = path[1]]() {
+			field->ModifyActorsMappingTableByMove(shared_from_this(), path);
+		});*/
+
+	field->ModifyActorsMappingTableByMove(shared_from_this(), _movePath);
+
+	{
+		//	다음 목적지로 이동
+		Protocol::S_MOVE moveSendPacket;
+		moveSendPacket.set_actorid(GetId());
+		moveSendPacket.mutable_positioninfo()->MergeFrom(GetPositionInfo());
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(moveSendPacket);
+		_region->BroadCast(GetPosition(), sendBuffer);
+	}
+
+	_needToMove = false;
+	_movePath = {};
+}
+
+void Monster::UseSkill()
+{
+	Protocol::S_SKILL skillSendPacket;
+	SetUsedSkillId(Protocol::SkillType::SKILL_AUTO_ATTACK);
+	skillSendPacket.set_actorid(GetId());
+	skillSendPacket.mutable_skillinfo()->set_skillid(Protocol::SkillType::SKILL_AUTO_ATTACK);
+	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(skillSendPacket);
+	_region->BroadCast(GetPosition(), sendBuffer);
+
+	const auto& skillData = DataManager::FindSkillData(Protocol::SkillType::SKILL_AUTO_ATTACK);
+	auto target = GetTargetPlayer();
+	//	Target이 nullptr?
+	target->OnDamaged(shared_from_this(), GetTotalAttack() + skillData.damage);
+
+	_needUseSkill = false;
+}
+
 void Monster::UpdateIdle()
 {
 	if (_nextSearchTick > ::GetTickCount64())
 		return;
 
 	//	TEMP
-	_nextSearchTick = ::GetTickCount64() + 1000;
+	_nextSearchTick = ::GetTickCount64() + 1500;
 
 	/*
 	* 	auto targetPlayer = _room->FindNearByPlayer(GetPosition(), _numberOfTilesToSearch);
@@ -143,7 +187,7 @@ void Monster::UpdateMove()
 		return;
 
 	//	TEMP
-	auto waitTick = 175;
+	auto waitTick = 250;
 	_nextMoveTick = ::GetTickCount64() + waitTick;
 
 	auto target = GetTargetPlayer();
@@ -194,6 +238,8 @@ void Monster::UpdateMove()
 	SetMoveDir(moveDir);
 
 	//	필드에 맵핑 테이블에 다음 위치를 기반으로 등록 및 위치 이동
+	//	동시 스레드 ...;;
+
 	field->ModifyActorsMappingTableByMove(shared_from_this(), path[1]);
 
 	{
@@ -204,6 +250,11 @@ void Monster::UpdateMove()
 		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(moveSendPacket);
 		_region->BroadCast(GetPosition(), sendBuffer);
 	}
+
+	/*_needToMove = true;
+
+	_movePath = path[1];*/
+
 }
 
 void Monster::UpdateSkill()
@@ -253,15 +304,22 @@ void Monster::UpdateSkill()
 		}
 
 		{
-			const auto& skillData = DataManager::FindSkillData(Protocol::SkillType::SKILL_AUTO_ATTACK);
-			target->OnDamaged(shared_from_this(), GetTotalAttack() + skillData.damage);
-
+			//_needUseSkill = true;
+	
 			Protocol::S_SKILL skillSendPacket;
 			SetUsedSkillId(Protocol::SkillType::SKILL_AUTO_ATTACK);
 			skillSendPacket.set_actorid(GetId());
 			skillSendPacket.mutable_skillinfo()->set_skillid(Protocol::SkillType::SKILL_AUTO_ATTACK);
 			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(skillSendPacket);
 			_region->BroadCast(GetPosition(), sendBuffer);
+
+			const auto& skillData = DataManager::FindSkillData(Protocol::SkillType::SKILL_AUTO_ATTACK);
+			target->OnDamaged(shared_from_this(), GetTotalAttack() + skillData.damage);
+
+			/*auto regionProcess = GRegionManager->GetRegionProcess();
+			regionProcess->OnlyPushJobAndNotDistribute([target, this, damage = skillData.damage]() {
+					target->OnDamaged(shared_from_this(), GetTotalAttack() + damage);
+				});*/
 
 			uint64 nextUseSkillTick = static_cast<uint64>(6000 * skillData.coolDown);
 			_nextUseSkillTick = ::GetTickCount64() + nextUseSkillTick;
@@ -273,7 +331,7 @@ void Monster::UpdateSkill()
 
 	_nextUseSkillTick = 0;
 	SetState(Protocol::AIState::IDLE);
-	SetUsedSkillId(Protocol::SkillType::SKILL_NONE);
+	//SetUsedSkillId(Protocol::SkillType::SKILL_NONE);
 	BroadCastChangeState(Protocol::AIState::IDLE);
 }
 

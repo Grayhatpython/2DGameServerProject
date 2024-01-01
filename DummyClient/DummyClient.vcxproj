@@ -176,6 +176,7 @@
     <ClInclude Include="DummyClient.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Protocol.pb.h" />
     <ClInclude Include="Random.h" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DummyClient.cpp" />
+    <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="ServerPacketHandler.cpp" />
     <ClCompile Include="Enum.pb.cc">

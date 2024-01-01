@@ -43,7 +43,7 @@ private:
 	float				_currentFrame = 0.f;
 	int32				_currentAnimFrameCount = 0;
 	
-	float				_animFPS = 10.f;
+	float				_animFPS = 14.f;
 
 	AnimSpriteInfo*		_currentAnimInfo = nullptr;
 };

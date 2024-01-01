@@ -22,7 +22,7 @@ void FieldOfView::Update()
 	if (_nextUpdateTick > ::GetTickCount64())
 		return;
 
-	_nextUpdateTick = ::GetTickCount64() + 250;
+	_nextUpdateTick = ::GetTickCount64() + 200;
 
 	auto owner = GetOwner();
 	ASSERT(owner);

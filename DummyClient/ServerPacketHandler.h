@@ -41,6 +41,8 @@ enum : uint16
 	PACKET_S_CHAT = 226,
 	PACKET_S_PING = 227,
 	PACKET_C_PONG = 228,
+	PACKET_C_POSITION = 229,
+	PACKET_S_POSITION = 230,
 
 };
 
@@ -66,6 +68,7 @@ bool S_CHANGE_STATE_Packet_Processing_Function(std::shared_ptr<PacketSession>& s
 bool S_CHANGE_MOVE_DIR_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CHANGE_MOVE_DIR& packet);
 bool S_CHAT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CHAT& packet);
 bool S_PING_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_PING& packet);
+bool S_POSITION_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_POSITION& packet);
 bool L_S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::L_S_CONNECTED& packet);
 bool L_S_CREATE_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::L_S_CREATE_ACCOUNT& packet);
 bool L_S_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::L_S_LOGIN_ACCOUNT& packet);
@@ -100,6 +103,7 @@ public:
 		GPacketPacketProcessingFunction[PACKET_S_CHANGE_MOVE_DIR] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::S_CHANGE_MOVE_DIR>(S_CHANGE_MOVE_DIR_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_S_CHAT] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::S_CHAT>(S_CHAT_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_S_PING] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::S_PING>(S_PING_Packet_Processing_Function, session, buffer, len); };
+		GPacketPacketProcessingFunction[PACKET_S_POSITION] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::S_POSITION>(S_POSITION_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_L_S_CONNECTED] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::L_S_CONNECTED>(L_S_CONNECTED_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_L_S_CREATE_ACCOUNT] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::L_S_CREATE_ACCOUNT>(L_S_CREATE_ACCOUNT_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_L_S_LOGIN_ACCOUNT] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::L_S_LOGIN_ACCOUNT>(L_S_LOGIN_ACCOUNT_Packet_Processing_Function, session, buffer, len); };
@@ -124,6 +128,7 @@ public:
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::C_CHANGE_MOVE_DIR& packet) { return TMakeSendBuffer(packet, PACKET_C_CHANGE_MOVE_DIR); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::C_CHAT& packet) { return TMakeSendBuffer(packet, PACKET_C_CHAT); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::C_PONG& packet) { return TMakeSendBuffer(packet, PACKET_C_PONG); }
+	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::C_POSITION& packet) { return TMakeSendBuffer(packet, PACKET_C_POSITION); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::L_C_CREATE_ACCOUNT& packet) { return TMakeSendBuffer(packet, PACKET_L_C_CREATE_ACCOUNT); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::L_C_LOGIN_ACCOUNT& packet) { return TMakeSendBuffer(packet, PACKET_L_C_LOGIN_ACCOUNT); }
 

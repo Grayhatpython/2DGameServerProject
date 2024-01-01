@@ -56,10 +56,11 @@ bool Region::Initialize(int32 splitZoneCount)
 
 	}
 
-	/*
+	
+	
 	//	Monster Test
 	{
-		for (int32 i = 0; i < 300; i++)
+		for (int32 i = 0; i < 400; i++)
 		{
 			//	TEMP
 			auto monster = GActorManager->AddActor<Monster>();
@@ -70,7 +71,7 @@ bool Region::Initialize(int32 splitZoneCount)
 			OnlyPushJobAndNotDistribute(&Region::Enter, std::static_pointer_cast<Actor>(monster), true);
 		}
 	}
-	*/
+
 	return true;
 }
 
@@ -213,6 +214,7 @@ void Region::Leave(int32 actorId)
 		{
 			//	지금은 나 자신이 죽어도 다시 바로 EnterGame으로 부활해주므로 아직은 괜찮음
 			//	본인한테 굳이 게임을 나갔다는 패킷을 보낼 필요가 었을까??
+			//	게임 상태에서 -> 로비로 이동 ?
 			Protocol::S_LEAVE_GAME leavePacket;
 			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(leavePacket);
 
@@ -274,16 +276,14 @@ void Region::Leave(int32 actorId)
 	}
 }
 
+//	Recv Packet Process 
+//	region->Execute();
 void Region::Move(std::shared_ptr<Player> player, Protocol::C_MOVE movePacket)
 {
 	//	Validate
 	ASSERT(player);
 
 	{
-
-		//	TEMP
-		//player->SetUsedSkillId(Protocol::SkillType::SKILL_NONE);
-
 		//	Move Validate
 		//	서버에서 좌표 이동?
 		//	지금 이게 이동 패킷이 오면 시뮬레이션 안하고 바로 좌표를 이동해버린다.
@@ -308,6 +308,8 @@ void Region::Move(std::shared_ptr<Player> player, Protocol::C_MOVE movePacket)
 			//	그래서 이동 로직이 바로 처리된다.. 추후에 업데이트 예정
 			player->SetState(movePacketPositionInfo.state());
 			player->SetMoveDir(movePacketPositionInfo.movedir());
+			player->SetMovePosition(movePosition);
+
 			//	필드에서 플레이어 등록
 			_field->ModifyActorsMappingTableByMove(player, movePosition);
 		}
@@ -430,6 +432,23 @@ void Region::ChatMessage(std::shared_ptr<Player> player, Protocol::C_CHAT chatPa
 	BroadCast(player->GetPosition(), sendBuffer);
 }
 
+void Region::Position(std::shared_ptr<Player> player, Protocol::C_POSITION position)
+{
+	ASSERT(player);
+
+	auto pos = Vector2{ position.positioninfo().positionx(), position.positioninfo().positiony() };
+	auto diff = player->GetPosition() - pos;
+
+	if (Math::NearZero(diff.Length()) == false)
+	{
+		Protocol::S_POSITION positionPacket;
+		positionPacket.set_positionchanged(1);
+		positionPacket.mutable_positioninfo()->MergeFrom(player->GetPositionInfo());
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(positionPacket);
+		BroadCast(player->GetPosition(), sendBuffer);
+	}
+}
+
 void Region::EquipItem(std::shared_ptr<Player> player, Protocol::C_EQUIP_ITEM equipItemPacket)
 {
 	ASSERT(player);
@@ -466,16 +485,217 @@ void Region::BroadCast(const Vector2& position, std::shared_ptr<SendBuffer> send
 	}
 }
 
-void Region::Update()
+void Region::Update(float deltaTime)
 {
 	for (auto& player : _players)
-		player.second->Update();
-
+		player.second->Update(deltaTime);
+	
 	for (auto& monster : _monsters)
-		monster.second->Update();
+		monster.second->Update(deltaTime);
 
+	/*
+	auto monsterCount = _monsters.size();
+	if (monsterCount > 0)
+	{
+		{
+			for (auto& monster : _monsters)
+			{
+				auto state = monster.second->GetState();
+				if (state == Protocol::AIState::IDLE)
+					_idleMonsters.push_back(monster.second);
+			}
+
+			auto idleMonsterCount = _idleMonsters.size();
+			if (idleMonsterCount > 0)
+			{
+				auto threadCount = (_idleMonsters.size() - 1) / 100 + 1;
+
+				std::vector<std::future<int32>> futures;
+				for (int32 i = 0; i < threadCount; i++)
+				{
+					futures.emplace_back(_updateThreadPool.Enqueue([this, i, idleMonsterCount, deltaTime, threadCount]()
+						{
+							auto standardMonsterUpdateCount = idleMonsterCount / threadCount;
+					Vector<std::shared_ptr<Monster>>::iterator start = _idleMonsters.begin() + (i * standardMonsterUpdateCount);
+					Vector<std::shared_ptr<Monster>>::iterator end;
+					if (i == threadCount - 1)
+						end = _idleMonsters.end();
+					else
+						end = _idleMonsters.begin() + ((i + 1) * standardMonsterUpdateCount);
+
+					for (auto iter = start; iter != end; ++iter)
+						(*iter)->Update(deltaTime);
+
+					return 1;
+						}));
+				}
+
+				int32 processUpdateThreadCount = 0;
+				for (auto& f : futures) {
+					processUpdateThreadCount += f.get();
+				}
+
+				ASSERT(processUpdateThreadCount == threadCount);
+
+				_idleMonsters.clear();
+			}
+		}
+
+
+		{
+			for (auto& monster : _monsters)
+			{
+				auto state = monster.second->GetState();
+				if (state == Protocol::AIState::MOVE)
+					_moveMonsters.push_back(monster.second);
+			}
+
+			auto moveMonsterCount = _moveMonsters.size();
+			if (moveMonsterCount > 0)
+			{
+				auto threadCount = (_moveMonsters.size() - 1) / 100 + 1;
+
+				std::vector<std::future<int32>> futures;
+				for (int32 i = 0; i < threadCount; i++)
+				{
+					futures.emplace_back(_updateThreadPool.Enqueue([this, i, moveMonsterCount, deltaTime, threadCount]()
+						{
+							auto standardMonsterUpdateCount = moveMonsterCount / threadCount;
+					Vector<std::shared_ptr<Monster>>::iterator start = _moveMonsters.begin() + (i * standardMonsterUpdateCount);
+					Vector<std::shared_ptr<Monster>>::iterator end;
+					if (i == threadCount - 1)
+						end = _moveMonsters.end();
+					else
+						end = _moveMonsters.begin() + ((i + 1) * standardMonsterUpdateCount);
+
+					for (auto iter = start; iter != end; ++iter)
+						(*iter)->Update(deltaTime);
+
+					return 1;
+						}));
+				}
+
+				int32 processUpdateThreadCount = 0;
+				for (auto& f : futures) {
+					processUpdateThreadCount += f.get();
+				}
+
+				ASSERT(processUpdateThreadCount == threadCount);
+
+				for (auto& monster : _moveMonsters)
+				{
+					if (monster->GetNeedToMove())
+						monster->ModifyMoveInfo();
+				}
+
+				_moveMonsters.clear();
+			}
+		}
+
+		{
+			for (auto& monster : _monsters)
+			{
+				auto state = monster.second->GetState();
+				if (state == Protocol::AIState::Skill)
+					_skillMonsters.push_back(monster.second);
+			}
+
+			auto moveMonsterCount = _skillMonsters.size();
+			if (moveMonsterCount > 0)
+			{
+				auto threadCount = (_skillMonsters.size() - 1) / 100 + 1;
+
+				std::vector<std::future<int32>> futures;
+				for (int32 i = 0; i < threadCount; i++)
+				{
+					futures.emplace_back(_updateThreadPool.Enqueue([this, i, moveMonsterCount, deltaTime, threadCount]()
+						{
+							auto standardMonsterUpdateCount = moveMonsterCount / threadCount;
+					Vector<std::shared_ptr<Monster>>::iterator start = _skillMonsters.begin() + (i * standardMonsterUpdateCount);
+					Vector<std::shared_ptr<Monster>>::iterator end;
+					if (i == threadCount - 1)
+						end = _skillMonsters.end();
+					else
+						end = _skillMonsters.begin() + ((i + 1) * standardMonsterUpdateCount);
+
+					for (auto iter = start; iter != end; ++iter)
+						(*iter)->Update(deltaTime);
+
+					return 1;
+						}));
+				}
+
+				int32 processUpdateThreadCount = 0;
+				for (auto& f : futures) {
+					processUpdateThreadCount += f.get();
+				}
+
+				ASSERT(processUpdateThreadCount == threadCount);
+
+				for (auto& monster : _skillMonsters)
+				{
+					if (monster->GetNeedUseSkill())
+						monster->UseSkill();
+				}
+
+				_skillMonsters.clear();
+			}
+		}
+
+		for (auto& monster : _monsters)
+		{
+			auto state = monster.second->GetState();
+			if (state == Protocol::AIState::Skill)
+				monster.second->Update(deltaTime);
+		}
+	}
+	*/
+	
 	for (auto& projectile : _projectiles)
-		projectile.second->Update();
+		projectile.second->Update(deltaTime);
+
+	/*
+	auto playerCount = _players.size();
+	if (playerCount > 0)
+	{
+		for (auto& player : _players)
+			_updatePlayers.push_back(player.second);
+
+		std::vector<std::future<int32>> futures;
+		for (int32 i = 0; i < UPDATE_THREAD_COUNT; i++)
+		{
+			futures.emplace_back(_updateThreadPool.Enqueue([this, i, playerCount, deltaTime]()
+				{
+					auto standardPlayerUpdateCount = playerCount / UPDATE_THREAD_COUNT;
+			Vector<std::shared_ptr<Player>>::iterator start = _updatePlayers.begin() + (i * standardPlayerUpdateCount);
+			Vector<std::shared_ptr<Player>>::iterator end;
+			if (i == UPDATE_THREAD_COUNT - 1)
+				end = _updatePlayers.end();
+			else
+				end = _updatePlayers.begin() + ((i + 1) * standardPlayerUpdateCount);
+
+			for (auto iter = start; iter != end; ++iter)
+				(*iter)->Update(deltaTime);
+
+			return 1;
+				}));
+		}
+
+		int32 processUpdateThreadCount = 0;
+		for (auto& f : futures) {
+			processUpdateThreadCount += f.get();
+		}
+
+		ASSERT(processUpdateThreadCount == UPDATE_THREAD_COUNT);
+
+		_updatePlayers.clear();
+	}
+
+
+
+		*/
+
+
 
 	//	로직상 아직 플레이어업데이트 및 몬스터업데이트에서 서로의 HashMap을 건드리는 일은 없다.
 	/*if (_removePlayersId.empty() == false)

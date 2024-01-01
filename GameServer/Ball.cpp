@@ -17,7 +17,7 @@ Ball::~Ball()
 	std::wcout << "~Ball" << std::endl;
 }
 
-void Ball::Update()
+void Ball::Update(float deltaTime)
 {
 	ASSERT(GetOwner());
 	ASSERT(_region);

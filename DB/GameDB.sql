@@ -109,7 +109,7 @@ AS
 BEGIN
 	SET NOCOUNT ON
 	SELECT
-	playerId, level, hp, maxHp, attack, speed, totalExp			
+	playerId, playerName, level, hp, maxHp, attack, speed, totalExp			
 	FROM Player 
 	WHERE accountId = (SELECT accountId FROM Account WHERE accountName = @uniqueId)
 END
@@ -270,7 +270,7 @@ WHERE hp = 0
 
 EXEC usp_SelectAccountId N'È«±æ33¼ø'
 EXEC usp_SelectPlayers N'È«±æ3¼ø'
-EXEC usp_InsertPlayer N'Player_1', 11, 11, 11, 11, 11.0, 11, 1
+EXEC usp_InsertPlayer N'Player_3939', 11, 11, 11, 11, 11.0, 11, 1
 
 DBCC CHECKIDENT(Account, reseed, 0);
 DBCC CHECKIDENT(Player, reseed, 0);

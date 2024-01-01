@@ -10,7 +10,7 @@ public:
 	void BroadcastHeartbeat();
 
 public:
-	Set<std::shared_ptr<ClientSession>>		GetSessions()
+	Set<std::shared_ptr<ClientSession>>	GetSessions()
 	{
 		WRITE_LOCK;
 		auto sessions = _clientSessions;

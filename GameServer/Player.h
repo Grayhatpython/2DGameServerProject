@@ -16,7 +16,7 @@ public:
 	virtual void	OnDamaged(std::shared_ptr<Actor> attacker, int32 damage) override;
 	virtual void	OnDead(std::shared_ptr<Actor> attacker) override;
 
-	void			Update();
+	virtual void	Update(float deltaTime) override;
 	void			Clear();
 
 public:
@@ -48,6 +48,7 @@ public:
 
 	FieldOfView*					GetFieldOfView() { return _fieldOfView.get(); }
 
+	void							SetMovePosition(const Vector2& position) { _movePosition = position; }
 private:
 	//	Ref 사이클 체크!
 	std::shared_ptr<ClientSession>	_session;
@@ -60,5 +61,8 @@ private:
 	//	Buff or Equip 
 	int32							_weaponDamage = 0;
 	int32							_armorDefence = 0;
+
+	//	TEMP
+	Vector2							_movePosition{};
 };
 

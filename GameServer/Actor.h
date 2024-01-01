@@ -16,7 +16,7 @@ public:
 
 public:
 	virtual void Initialize();
-	virtual void Update();
+	virtual void Update(float deltaTime);
 	virtual void OnDamaged(std::shared_ptr<Actor> attacker, int32 damage);
 	virtual void OnDead(std::shared_ptr<Actor> attacker);
 

@@ -193,3 +193,14 @@ message C_PONG
 {
 
 }
+
+message C_POSITION
+{
+	PositionInfo positionInfo = 1;
+}
+
+message S_POSITION
+{
+	int32 positionChanged = 1;
+	PositionInfo positionInfo = 2;
+}

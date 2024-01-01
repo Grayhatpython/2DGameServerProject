@@ -41,6 +41,8 @@ enum : uint16
 	PACKET_S_CHAT = 226,
 	PACKET_S_PING = 227,
 	PACKET_C_PONG = 228,
+	PACKET_C_POSITION = 229,
+	PACKET_S_POSITION = 230,
 
 };
 
@@ -57,6 +59,7 @@ bool C_CHANGE_STATE_Packet_Processing_Function(std::shared_ptr<PacketSession>& s
 bool C_CHANGE_MOVE_DIR_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_CHANGE_MOVE_DIR& packet);
 bool C_CHAT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_CHAT& packet);
 bool C_PONG_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_PONG& packet);
+bool C_POSITION_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_POSITION& packet);
 
 
 class ClientPacketHandler
@@ -79,6 +82,7 @@ public:
 		GPacketPacketProcessingFunction[PACKET_C_CHANGE_MOVE_DIR] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::C_CHANGE_MOVE_DIR>(C_CHANGE_MOVE_DIR_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_C_CHAT] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::C_CHAT>(C_CHAT_Packet_Processing_Function, session, buffer, len); };
 		GPacketPacketProcessingFunction[PACKET_C_PONG] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::C_PONG>(C_PONG_Packet_Processing_Function, session, buffer, len); };
+		GPacketPacketProcessingFunction[PACKET_C_POSITION] = [](std::shared_ptr<PacketSession>& session, BYTE* buffer, int32 len) { return TPacketProcessing<Protocol::C_POSITION>(C_POSITION_Packet_Processing_Function, session, buffer, len); };
 
 	}
 
@@ -109,6 +113,7 @@ public:
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::S_CHANGE_MOVE_DIR& packet) { return TMakeSendBuffer(packet, PACKET_S_CHANGE_MOVE_DIR); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::S_CHAT& packet) { return TMakeSendBuffer(packet, PACKET_S_CHAT); }
 	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::S_PING& packet) { return TMakeSendBuffer(packet, PACKET_S_PING); }
+	static std::shared_ptr<SendBuffer> MakeSendBuffer(Protocol::S_POSITION& packet) { return TMakeSendBuffer(packet, PACKET_S_POSITION); }
 
 
 private:

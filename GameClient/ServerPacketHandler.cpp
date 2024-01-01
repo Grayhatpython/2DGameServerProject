@@ -15,6 +15,7 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 #include "AnimSpriteComponent.h"
+#include "PlayerInputComponent.h"
 
 #include "Hit.h"
 #include "BallDestory.h"
@@ -49,7 +50,7 @@ bool Packet_Processing_Function_Undefined(std::shared_ptr<PacketSession>& sessio
 bool S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CONNECTED& packet)
 {
 	std::wcout << L"S_CONNECTED_Packet_Processing_Function" << std::endl;
-
+	/*
 	Protocol::C_LOGIN loginSendPacket;
 
 	auto uniqueId = UtilityHelper::ConvertUnicodeToUTF8(GNetworkManager->GetAccountName());
@@ -58,6 +59,17 @@ bool S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& sess
 	loginSendPacket.set_accountid(GNetworkManager->GetAccountId());
 	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginSendPacket);
 	GNetworkManager->Send(loginSendPacket);
+	*/
+
+	//	테스트만을 위해 로그인 및 토큰 과정 생략 
+	{
+		Protocol::C_LOGIN loginSendPacket;
+
+		std::string id = "DummyClient_" + std::to_string(1000);
+		loginSendPacket.set_uniqueid(id);
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginSendPacket);
+		GNetworkManager->Send(loginSendPacket);
+	}
 
 	return true;
 }
@@ -147,6 +159,7 @@ bool S_ENTER_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 		camera->AddComponent<CameraComponent>()->SetTarget(myPlayer);
 	}
 
+	GNetworkManager->SetClientGameState(Protocol::CLIENT_STATE_GAME);
 	return true;
 }
 
@@ -262,7 +275,9 @@ bool S_SPAWN_Packet_Processing_Function(std::shared_ptr<PacketSession>& session,
 				auto fsm = player->GetComponent<FSMComponent>();
 				ASSERT(fsm);		
 
-				if (actorInfo.positioninfo().state() == Protocol::AIState::Skill)
+				auto state = actorInfo.positioninfo().state();
+
+				if (state == Protocol::AIState::Skill)
 				{
 					const auto& skillData = DataManager::FindSkillData(actorInfo.positioninfo().usedskillid());
 					auto skillName = skillData.name;
@@ -270,8 +285,19 @@ bool S_SPAWN_Packet_Processing_Function(std::shared_ptr<PacketSession>& session,
 					fsm->ChangeState(skillName);
 				}
 				else
-					fsm->ChangeState(actorInfo.positioninfo().state());
+				{
+					if (state == Protocol::AIState::MOVE)
+					{
+						auto move = player->GetComponent<MoveComponent>();
+						auto transform = player->GetComponent<TransformComponent>();
+						ASSERT(move);
+						ASSERT(transform);
+						auto movePosition = transform->GetPosition();
+						move->SetMovePosition(movePosition);
+					}
 
+					fsm->ChangeState(actorInfo.positioninfo().state());
+				}
 
 			}
 			else if (type == Protocol::ActorType::MONSTER)
@@ -368,12 +394,13 @@ bool S_DESPAWN_Packet_Processing_Function(std::shared_ptr<PacketSession>& sessio
 
 bool S_MOVE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_MOVE& packet)
 {
-	//std::cout << "S_MOVE_Packet_Processing_Function" << std::endl;
 
 	auto actor = GActorManager->FindActor(packet.actorid());
 	//	Zone 이슈
 	if (actor == nullptr)
 		return true;
+
+	//std::cout << actor->GetId() << " S_MOVE_Packet_Processing_Function -> " << packet.positioninfo().positionx() << "," << packet.positioninfo().positiony() << std::endl;
 
 	//if (GActorManager->GetMyPlayer()->GetId() == packet.actorid())
 	//	return true;
@@ -503,7 +530,7 @@ bool S_DEATH_Packet_Processing_Function(std::shared_ptr<PacketSession>& session,
 
 bool S_CHANGE_STATE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CHANGE_STATE& packet)
 {
-	std::cout << "S_CHANGE_STATE_Packet_Processing_Function" << std::endl;
+	//std::cout << "S_CHANGE_STATE_Packet_Processing_Function" << std::endl;
 
 	auto actor = GActorManager->FindActor(packet.actorid());
 	//	Zone 이슈
@@ -520,7 +547,7 @@ bool S_CHANGE_STATE_Packet_Processing_Function(std::shared_ptr<PacketSession>& s
 
 bool S_CHANGE_MOVE_DIR_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_CHANGE_MOVE_DIR& packet)
 {
-	std::cout << "S_CHANGE_MOVE_DIR_Packet_Processing_Function" << std::endl;
+	//std::cout << "S_CHANGE_MOVE_DIR_Packet_Processing_Function" << std::endl;
 
 	auto actor = GActorManager->FindActor(packet.actorid());
 	//	Zone 이슈
@@ -643,6 +670,24 @@ bool L_S_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>
 		auto loginForm = GGUIManager->GetGui(L"LoginForm");
 		ASSERT(loginForm);
 		static_cast<GUILoginForm*>(loginForm)->SetLoginOrRegisterFailedText(failedReasonText);
+	}
+
+	return true;
+}
+
+bool S_POSITION_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_POSITION& packet)
+{
+	ASSERT(GNetworkManager->GetClientGameState() == Protocol::ClientGameState::CLIENT_STATE_GAME);
+
+	auto myPlayer = GActorManager->GetMyPlayer();
+	ASSERT(myPlayer);
+
+	if (packet.positionchanged() > 0)
+	{
+		auto transform = myPlayer->GetComponent<TransformComponent>();
+		ASSERT(transform);
+		auto position = Vector2{ packet.positioninfo().positionx(), packet.positioninfo().positiony() };
+		transform->SetPosition(position);
 	}
 
 	return true;

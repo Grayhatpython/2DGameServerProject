@@ -1,4 +1,7 @@
 #include "pch.h"
+
+#include <Mmsystem.h>
+
 #include "GameServer.h"
 #include "Acceptor.h"
 #include "NetworkService.h"
@@ -13,7 +16,9 @@
 #include "ConfigManager.h"
 #include "DataManager.h"
 #include "DBProcess.h"
+#include "RegionProcess.h"
 #include "DBConnectionPool.h"
+#include "PerformanceCounter.h"
 
 #include "Region.h"
 
@@ -28,8 +33,6 @@ void NetworkTask(std::shared_ptr<ServerService>& serverService)
 	//	바꿀 예정
 	if (serverService)
 	{
-		//LEndTickCount = ::GetTickCount64() + WORK_CHECK_TICK;
-
 		serverService->GetIocpCore()->Dispatch(TIME_OUT);
 
 		//	TODO : Function
@@ -129,62 +132,11 @@ bool GameServer::Initialize()
 
 void GameServer::Start()
 {
-	//	Process Recv And Process Send
-	for (int32 i = 0; i < 4; i++)
-	{
-		std::wstring name = L"IocpWorkerThread " + std::to_wstring(i);
-		_networkThreadName.push_back(name);
-		GThreadManager->Launch(name, [&]() {
-				NetworkTask(_serverService);
-			});
-	}
 
-	//	Game Logic Update And BroadCast Send Queue Push
-	for (int32 i = 0; i < 1; i++)
-	{
-		std::wstring name = L"Region" + std::to_wstring(i + 1) + L"UpdateThread " + std::to_wstring(i);
-		_networkThreadName.push_back(name);
-		auto region = GRegionManager->FindRegionFromId(1);
-		GThreadManager->Launch(name, [region]() {
-				if (region)
-				{
-					region->KeepExecute();
-					region->Update();
-
-					std::this_thread::yield();
-				}
-			});
-	}
-
-	//	All Session Register Send
-	for (int32 i = 0; i < 1; i++)
-	{
-		std::wstring name = L"FlushSendThread " + std::to_wstring(i);
-		_networkThreadName.push_back(name);
-		GThreadManager->Launch(name, []() {
-				auto sessions = GClientSessionManager->GetSessions();
-				for (auto& session : sessions)
-					session->FlushSend();
-				sessions.clear();
-				std::this_thread::yield();
-			});
-	}
-
-	//	멀티 스레드로 DB 처리 시 순서 보장이랑 락은 어떻게 처리할까나..
-	for (int32 i = 0; i < 1; i++)
-	{
-		std::wstring name = L"DBProcessThread " + std::to_wstring(i);
-		_networkThreadName.push_back(name);
-		GThreadManager->Launch(name, []() {
-				GDBProcess->UpdateGameServerInfo();
-				GDBProcess->KeepExecute();
-				std::this_thread::yield();
-			});
-	}
-
+	/*
 	//	음.. 매번 실행될 일감들..
 	//	클라이언트와의 연결이 살아 있는지 주기적으로 패킷 전달...
-	/*for (int32 i = 0; i < 1; i++)
+	for (int32 i = 0; i < 1; i++)
 	{
 		std::wstring name = L"RunningSchedule " + std::to_wstring(i);
 		_networkThreadName.push_back(name);
@@ -192,10 +144,9 @@ void GameServer::Start()
 				GClientSessionManager->BroadcastHeartbeat();
 				std::this_thread::sleep_for(500ms);
 			});
-	}*/
-
+	}
+	
 	//	F2 key -> Server Exit
-
 	while (true)
 	{
 		SHORT keyState = GetKeyState(VK_F2);
@@ -207,4 +158,155 @@ void GameServer::Start()
 
 		::Sleep(50);
 	}
+	*/
+
+	//	Process Recv ( Packet Push ) And Process Send
+	for (int32 i = 0; i < 4; i++)
+	{
+		std::wstring name = L"IocpWorkerThread " + std::to_wstring(i);
+		_networkThreadName.push_back(name);
+		GThreadManager->Launch(name, [&]() {
+				NetworkTask(_serverService);
+			});
+	}
+
+	//	DB Process 
+	for (int32 i = 0; i < 1; i++)
+	{
+		std::wstring name = L"DBProcessThread " + std::to_wstring(i);
+		_networkThreadName.push_back(name);
+		GThreadManager->Launch(name, []() {
+				GDBProcess->UpdateGameServerInfo();
+				GDBProcess->KeepExecute();
+				std::this_thread::yield();
+			});
+	}
+
+	
+	for (int32 i = 0; i < 1; i++)
+	{
+		std::wstring name = L"FlushSendThread " + std::to_wstring(i);
+		_networkThreadName.push_back(name);
+		GThreadManager->Launch(name, []() {
+				auto sessions = GClientSessionManager->GetSessions();
+				for (auto& session : sessions)
+					session->FlushSend();
+				std::this_thread::yield();
+			});
+	}
+
+	Update();
+}
+
+void GameServer::Update()
+{
+	LARGE_INTEGER frequency, startTickCount, currentTickCount;
+	int64 loopTickCount = 0, millisecondTickCount = 0;
+	int32 framePerSecond = 0;
+
+	::timeBeginPeriod(1);
+	::QueryPerformanceFrequency(&frequency);
+	millisecondTickCount = frequency.QuadPart / 1000;
+	loopTickCount = frequency.QuadPart / UPDATE_FRAME_TIME_TICK;
+
+	::QueryPerformanceCounter(&startTickCount);
+	int64 sleepTime = 0;
+
+	uint64 frameStartTick = ::GetTickCount64();
+	uint64 frameEndTick = ::GetTickCount64();
+	uint64 frameCurrentTick = ::GetTickCount64();
+
+	//	Main Thread -> 30Frame or 60frame
+	while (true)
+	{
+		if (frameEndTick - frameStartTick >= 1000)
+		{
+			
+			::OutputDebugString(L"FPS : ");
+			::OutputDebugString(std::to_wstring(framePerSecond).c_str());
+			::OutputDebugString(L"\n");
+			
+
+			frameStartTick = frameEndTick;
+			framePerSecond = 0;
+		}
+
+		auto region = GRegionManager->FindRegionFromId(1);
+			
+		//	Recv Packet Process 
+		region->Execute();
+
+		float deltaTime = (frameEndTick - frameCurrentTick) / 1000.0f;
+		/*::OutputDebugString(std::to_wstring(deltaTime).c_str());
+		::OutputDebugString(L"\n");*/
+
+		frameCurrentTick = ::GetTickCount64();
+
+		//	Game Logic Update
+		region->Update(deltaTime);
+
+		auto regionProcess = GRegionManager->GetRegionProcess();
+		regionProcess->Execute();
+
+		/*
+		//	Packet Send
+		for (int32 i = 0; i < UPDATE_THREAD_COUNT; i++)
+		{
+			auto sessions = GClientSessionManager->GetSessions();
+			auto sessionCount = sessions.size();
+			Vector<std::shared_ptr<ClientSession>> clientSessions;
+
+			for (auto& session : sessions)
+				clientSessions.push_back(session);
+
+			std::vector<std::future<int32>> futures;
+			for (int32 i = 0; i < UPDATE_THREAD_COUNT; i++)
+			{
+				futures.emplace_back(_sendThreadPool.Enqueue([&clientSessions, sessionCount, i]()
+					{
+						auto standardClientUpdateCount = sessionCount / UPDATE_THREAD_COUNT;
+						Vector<std::shared_ptr<ClientSession>>::iterator start = clientSessions.begin() + (i * standardClientUpdateCount);
+						Vector<std::shared_ptr<ClientSession>>::iterator end;
+						if (i == UPDATE_THREAD_COUNT - 1)
+							end = clientSessions.end();
+						else
+							end = clientSessions.begin() + ((i + 1) * standardClientUpdateCount);
+
+						for (auto iter = start; iter != end; ++iter)
+							(*iter)->FlushSend();
+
+						return 1;
+					}));
+			}
+
+			int32 processUpdateThreadCount = 0;
+			for (auto& f : futures) {
+				processUpdateThreadCount += f.get();
+			}
+
+			ASSERT(processUpdateThreadCount == UPDATE_THREAD_COUNT);
+		}
+		*/
+
+		/*auto sessions = GClientSessionManager->GetSessions();
+		for (auto& session : sessions)
+			session->FlushSend();*/
+
+		::QueryPerformanceCounter(&currentTickCount);
+		sleepTime = (startTickCount.QuadPart + loopTickCount - currentTickCount.QuadPart) / millisecondTickCount;
+		/*::OutputDebugString(std::to_wstring(sleepTime).c_str());
+		::OutputDebugString(L"\n");*/
+
+		startTickCount.QuadPart += loopTickCount;
+		if (currentTickCount.QuadPart - startTickCount.QuadPart > loopTickCount)
+			startTickCount = currentTickCount;
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+
+		framePerSecond++;
+		frameEndTick = ::GetTickCount64();
+
+	}
+
+	::timeEndPeriod(1);
 }

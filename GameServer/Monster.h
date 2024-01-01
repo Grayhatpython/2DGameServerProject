@@ -10,9 +10,13 @@ public:
 
 public:
 	virtual void Initialize() override;
-	virtual void Update() override;
+	virtual void Update(float deltaTime) override;
 	virtual void OnDamaged(std::shared_ptr<Actor> attacker, int32 damage) override;
 	virtual void OnDead(std::shared_ptr<Actor> attacker) override;
+
+public:
+	void		ModifyMoveInfo();
+	void		UseSkill();
 
 protected:
 	virtual void UpdateIdle();
@@ -27,6 +31,9 @@ private:
 public:
 	std::shared_ptr<Player>	GetTargetPlayer() { return _target.lock(); }
 
+	bool					GetNeedToMove() const { return _needToMove; }
+	bool					GetNeedUseSkill() const { return _needUseSkill; }
+
 private:
 	//	TEMP
 	uint64					_nextSearchTick = 0;
@@ -40,6 +47,10 @@ private:
 	uint64					_nextUseSkillTick = 0;
 
 	int32					_dataSheetId = 0;
+
+	bool					_needToMove = false;
+	bool					_needUseSkill = false;
+	Vector2					_movePath{};
 
 	std::weak_ptr<Player>	_target;
 };

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RegionManager.h"
 #include "Region.h"
+#include "RegionProcess.h"
 
 RegionManager* GRegionManager = nullptr;
 //	동기화가 필요 할까...? 
@@ -8,7 +9,7 @@ RegionManager* GRegionManager = nullptr;
 
 RegionManager::RegionManager()
 {
-
+	_regionProcess = std::make_unique<RegionProcess>();
 }
 
 RegionManager::~RegionManager()

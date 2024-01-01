@@ -8,7 +8,7 @@ public:
 	virtual ~Ball();
 
 public:
-	virtual void Update() override;
+	virtual void Update(float deltaTime) override;
 
 private:
 };

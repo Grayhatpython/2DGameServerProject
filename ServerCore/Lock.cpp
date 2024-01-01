@@ -38,7 +38,7 @@ void Lock::WriteLock()
 			::YieldProcessor();
 
 		if (::GetTickCount64() - raceConditionBeginTick >= ACQUIRE_TIMEOUT_TICK)
-			assert(1 == 2);	//	TEMP
+			assert(false);	//	TEMP
 
 		//this_thread::yield();
 		/*::YieldProcessor();*/
@@ -48,7 +48,7 @@ void Lock::WriteLock()
 void Lock::WriteUnlock()
 {
 	if((_lockFlag.load() & READ_COUNT_MASK) != 0)
-		assert(1 == 2);	//	TEMP
+		assert(false);	//	TEMP
 
 	const uint16 lockCount = --_writeCount;
 	if (lockCount == 0)
@@ -77,7 +77,7 @@ void Lock::ReadLock()
 			::YieldProcessor();
 
 		if (::GetTickCount64() - raceConditionBeginTick >= ACQUIRE_TIMEOUT_TICK)
-			assert(1 == 2);	//	TEMP
+			assert(false);	//	TEMP
 
 		//this_thread::yield();
 		/*::YieldProcessor();*/
@@ -87,5 +87,5 @@ void Lock::ReadLock()
 void Lock::ReadUnlock()
 {
 	if((_lockFlag.fetch_sub(1) & READ_COUNT_MASK) == 0)
-		assert(1 == 2);	//	TEMP
+		assert(false);	//	TEMP
 }

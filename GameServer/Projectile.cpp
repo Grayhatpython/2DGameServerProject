@@ -13,7 +13,7 @@ Projectile::~Projectile()
 	std::wcout << "~Projectile" << std::endl;
 }
 
-void Projectile::Update()
+void Projectile::Update(float deltaTime)
 {
 	
 }

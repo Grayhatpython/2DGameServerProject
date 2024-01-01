@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ServerPacketHandler.h"
 #include "ServerSession.h"
+#include "MyPlayer.h"
 
 PacketProcessingFunction GPacketPacketProcessingFunction[UINT16_MAX];
 
@@ -31,7 +32,7 @@ bool S_CONNECTED_Packet_Processing_Function(std::shared_ptr<PacketSession>& sess
 
 bool S_LOGIN_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_LOGIN& packet)
 {
-	std::wcout << L"S_LOGIN_Packet_Processing_Function" << std::endl;
+	//std::wcout << L"S_LOGIN_Packet_Processing_Function" << std::endl;
 	auto serverSession = std::static_pointer_cast<ServerSession>(session);
 
 	//	로비 UI and 캐릭터 선택
@@ -90,6 +91,14 @@ bool S_ENTER_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 {
 	//std::wcout << L"S_ENTER_GAME_Packet_Processing_Function" << std::endl;
 
+	auto player = packet.player();
+
+	auto serverSession = std::static_pointer_cast<ServerSession>(session);
+	auto myPlayer = std::make_shared<MyPlayer>();
+	myPlayer->SetPositionInfo(player.positioninfo());
+
+	serverSession->SetMyPlayer(myPlayer);
+
 	return true;
 }
 
@@ -97,6 +106,9 @@ bool S_LEAVE_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 {
 	//std::wcout << L"S_LEAVE_GAME_Packet_Processing_Function" << std::endl;
 	//	TODO?
+	auto serverSession = std::static_pointer_cast<ServerSession>(session);
+	serverSession->SetMyPlayer(nullptr);
+
 	return true;
 }
 
@@ -138,6 +150,10 @@ bool S_DESPAWN_Packet_Processing_Function(std::shared_ptr<PacketSession>& sessio
 bool S_MOVE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_MOVE& packet)
 {
 	//std::cout << "S_MOVE_Packet_Processing_Function" << std::endl;
+
+	auto serverSession = std::static_pointer_cast<ServerSession>(session);
+	auto myPlayer = std::make_shared<MyPlayer>();
+	myPlayer->SetPositionInfo(packet.positioninfo());
 
 	return true;
 }
@@ -191,7 +207,7 @@ bool S_CHAT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, 
 
 bool S_PING_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_PING& packet)
 {
-	std::cout << "S_PING_Packet_Processing_Function" << std::endl;
+	//std::cout << "S_PING_Packet_Processing_Function" << std::endl;
 
 	return true;
 }
@@ -207,6 +223,11 @@ bool L_S_CREATE_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession
 }
 
 bool L_S_LOGIN_ACCOUNT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::L_S_LOGIN_ACCOUNT& packet)
+{
+	return true;
+}
+
+bool S_POSITION_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::S_POSITION& packet)
 {
 	return true;
 }

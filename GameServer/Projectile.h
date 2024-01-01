@@ -8,7 +8,7 @@ public:
 	virtual ~Projectile();
 
 public:
-	virtual void			Update();
+	virtual void			Update(float deltaTime) override;
 
 public:
 	void							SetOwner(std::weak_ptr<Actor> owner) { _owner = owner; }

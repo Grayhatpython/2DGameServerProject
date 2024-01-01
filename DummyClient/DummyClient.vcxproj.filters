@@ -43,6 +43,9 @@
     <ClCompile Include="ServerSessionManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MyPlayer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -73,6 +76,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="ServerSessionManager.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPlayer.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

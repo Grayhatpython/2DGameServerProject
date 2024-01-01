@@ -14,6 +14,8 @@
 #include "InventoryManager.h"
 #include "LoginGameScene.h"
 
+#include "MyPlayer.h"
+
 Game::Game()
 {
 }
@@ -113,15 +115,18 @@ void Game::Run()
 
 	//	TODO
 	{
+		/*
 		auto loginGameScene = std::make_shared<LoginGameScene>();
 		GGameSceneManager->SetGameScene(loginGameScene);
+		*/
 
-		/*auto playGameScene = std::make_shared<PlayGameScene>();
-		GGameSceneManager->SetGameScene(playGameScene);*/
+		auto playGameScene = std::make_shared<PlayGameScene>();
+		GGameSceneManager->SetGameScene(playGameScene);
 	}
 
 	while (true)
 	{
+		_startTick = ::GetTickCount64();
 		GNetworkManager->PrcoessPackets();
 
 		auto gameScene = GGameSceneManager->GetGameScene();	
@@ -130,6 +135,9 @@ void Game::Run()
 			//Performance p;
 			ProcessInput();
 			Update();
+
+			GNetworkManager->FlushSend();
+
 			Render();
 		}
 		else
@@ -194,6 +202,12 @@ void Game::Update()
 	_tickCount = ::SDL_GetTicks64();
 
 	GGameSceneManager->Update(deltaTime);
+
+	if (::GetTickCount64() - _startTick <= 500)
+	{
+		_startTick = ::GetTickCount64();
+		//GNetworkManager->PositionInfoSend();
+	}
 }
 
 void Game::Render()

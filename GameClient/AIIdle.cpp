@@ -73,6 +73,7 @@ void AIIdle::Update(float deltaTime)
 		else
 		{
 			Protocol::MoveDir movekeyInputDir;
+			/*
 			if (input->GetIsMoveUpLeftKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::UP_LEFT;
 			else if (input->GetIsMoveUpRightKeyPressed())
@@ -81,7 +82,8 @@ void AIIdle::Update(float deltaTime)
 				movekeyInputDir = Protocol::MoveDir::DOWN_LEFT;
 			else if (input->GetIsMoveDownRightKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::DOWN_RIGHT;
-			else if (input->GetIsMoveUpKeyPressed())
+			*/
+			if (input->GetIsMoveUpKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::UP;
 			else if (input->GetIsMoveDownKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::DOWN;
@@ -105,24 +107,30 @@ void AIIdle::Update(float deltaTime)
 				positionInfo.set_usedskillid(0);
 				fsm->ChangeState(positionInfo);
 			}
-			//	가지 못하지만 계속 달리는 애니메이션 처리
+			//	Idle 상태에서 Move 상태로 변경하고 싶은데 앞길이 막혔을 경우..
 			else
 			{
+				//	현재 바라보는 방향이랑 다른 방향으로 방향키를 눌렀을 경우..
 				if (movekeyInputDir != move->GetMoveDir())
 				{
+					//	방향만 변경되었다고 패킷 전송...
 					Protocol::C_CHANGE_MOVE_DIR changeMoveDirSendPacket;
 					changeMoveDirSendPacket.set_movedir(movekeyInputDir);
 					auto moveDirPacketSendBuffer = ServerPacketHandler::MakeSendBuffer(changeMoveDirSendPacket);
 					GNetworkManager->Send(moveDirPacketSendBuffer);
 
+					//	및 클라이언트에서 방향 변경
 					move->SetMoveDir(movekeyInputDir);
 				}
 
+				//	현재 바라보는 방향이랑 같은 방향키를 눌렀을 경우...
+				//	상태만 움직이는 상태로 변경되었다고 패킷 전송...
 				Protocol::C_CHANGE_STATE changeStateSendPacket;
 				changeStateSendPacket.set_state(Protocol::AIState::MOVE);
 				auto changeStatePacketSendBuffer = ServerPacketHandler::MakeSendBuffer(changeStateSendPacket);
 				GNetworkManager->Send(changeStatePacketSendBuffer);
 
+				//	및 클라이언트에서 상태 변경
 				fsm->ChangeState(Protocol::AIState::MOVE);
 			}
 		}

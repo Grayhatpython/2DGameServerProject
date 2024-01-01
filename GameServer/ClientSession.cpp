@@ -89,10 +89,6 @@ void ClientSession::Login(Protocol::C_LOGIN& loginPacket)
 	{
 		//	TODO : DB접근 문제 있을 수 있음
 		//	보안 체크
-
-
-
-
 		//	인증 id
 		int32	authId = 0;
 		bool	isDummyClient = false;
@@ -142,9 +138,9 @@ void ClientSession::Login(Protocol::C_LOGIN& loginPacket)
 			//	계정이 있는 경우
 			if (_accountDbId > 0)
 			{
-				DBHelper<1, 7> dbHepler(dbConnection, L"EXEC usp_SelectPlayers ?");
-				auto name = UtilityHelper::ConvertUTF8ToUnicode(loginPacket.uniqueid());
+				DBHelper<1, 8> dbHepler(dbConnection, L"EXEC usp_SelectPlayers ?");
 				dbHepler.BindParam(0, name.c_str());
+				WCHAR playerName[32] = {0,};
 
 				int32 playerId = 0;
 				int32 level = 0;
@@ -155,12 +151,13 @@ void ClientSession::Login(Protocol::C_LOGIN& loginPacket)
 				int32 totalExp = 0;
 
 				dbHepler.BindCol(0, playerId);
-				dbHepler.BindCol(1, level);
-				dbHepler.BindCol(2, hp);
-				dbHepler.BindCol(3, maxHp);
-				dbHepler.BindCol(4, attack);
-				dbHepler.BindCol(5, speed);
-				dbHepler.BindCol(6, totalExp);
+				dbHepler.BindCol(1, playerName);
+				dbHepler.BindCol(2, level);
+				dbHepler.BindCol(3, hp);
+				dbHepler.BindCol(4, maxHp);
+				dbHepler.BindCol(5, attack);
+				dbHepler.BindCol(6, speed);
+				dbHepler.BindCol(7, totalExp);
 
 				ASSERT(dbHepler.Execute());
 
@@ -169,7 +166,7 @@ void ClientSession::Login(Protocol::C_LOGIN& loginPacket)
 				while (dbHepler.Fetch())
 				{
 					lobbyPlayerInfo.set_playerdbid(playerId);
-					lobbyPlayerInfo.set_name(loginPacket.uniqueid());
+					lobbyPlayerInfo.set_name(UtilityHelper::ConvertUnicodeToUTF8(playerName));
 					lobbyPlayerInfo.mutable_statinfo()->set_level(level);
 					lobbyPlayerInfo.mutable_statinfo()->set_hp(hp);
 					lobbyPlayerInfo.mutable_statinfo()->set_maxhp(maxHp);
@@ -310,8 +307,8 @@ void ClientSession::EnterGame(Protocol::C_ENTER_GAME& enterGamePacket)
 		_myPlayer->SetPlayerDbId(lobbyPlayer->playerdbid());
 		_myPlayer->SetName(lobbyPlayer->name());
 		Protocol::PositionInfo positionInfo;
-		positionInfo.set_positionx(16.f);
-		positionInfo.set_positiony(16.f);
+		positionInfo.set_positionx(144.f);
+		positionInfo.set_positiony(144.f);
 		positionInfo.set_movedir(Protocol::MoveDir::DOWN);
 		positionInfo.set_state(Protocol::AIState::IDLE);
 		positionInfo.set_usedskillid(0);

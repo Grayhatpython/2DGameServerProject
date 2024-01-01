@@ -22,7 +22,7 @@ void Actor::Initialize()
 
 }
 
-void Actor::Update()
+void Actor::Update(float deltaTime)
 {
 
 }

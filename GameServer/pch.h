@@ -10,6 +10,8 @@
 #pragma comment(lib, "Protobuf\\Release\\libprotobuf.lib")
 #endif
 
+#pragma comment(lib, "winmm.lib")
+
 #include "CorePch.h"
 #include "Enum.pb.h"
 #include "Struct.pb.h"

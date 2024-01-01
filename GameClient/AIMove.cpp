@@ -131,6 +131,8 @@ void AIMove::UpdatePosition(float deltaTime)
 	else
 	{
 		currentPosition += Vector2::Normalize(diff) * forwardSpeed * deltaTime;
+		/*OutputDebugString(std::to_wstring(count).c_str());
+		OutputDebugString(L"\n");*/
 		transform->SetPosition(currentPosition);
 	}
 }
@@ -146,6 +148,7 @@ void AIMove::UpdateMovePosition()
 	ASSERT(owner);
 
 	auto input = owner->GetComponent<PlayerInputComponent>();
+
 	//	MyPlayer
 	if (input)
 	{
@@ -164,6 +167,7 @@ void AIMove::UpdateMovePosition()
 		else
 		{
 			Protocol::MoveDir movekeyInputDir;
+			/*
 			if (input->GetIsMoveUpLeftKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::UP_LEFT;
 			else if (input->GetIsMoveUpRightKeyPressed())
@@ -172,7 +176,8 @@ void AIMove::UpdateMovePosition()
 				movekeyInputDir = Protocol::MoveDir::DOWN_LEFT;
 			else if (input->GetIsMoveDownRightKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::DOWN_RIGHT;
-			else if (input->GetIsMoveUpKeyPressed())
+			*/
+			if (input->GetIsMoveUpKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::UP;
 			else if (input->GetIsMoveDownKeyPressed())
 				movekeyInputDir = Protocol::MoveDir::DOWN;

@@ -130,3 +130,17 @@ bool C_PONG_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, 
 	clientSession->Pong();
 	return true;
 }
+
+bool C_POSITION_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_POSITION& packet)
+{
+	auto clientSession = std::static_pointer_cast<ClientSession>(session);
+	auto myPlayer = clientSession->GetMyPlayer();
+	auto region = myPlayer->GetRegion();
+
+	if (myPlayer == nullptr || region == nullptr)
+		return false;
+
+	region->OnlyPushJobAndNotDistribute(&Region::Position, myPlayer, std::move(packet));
+
+	return true;
+}

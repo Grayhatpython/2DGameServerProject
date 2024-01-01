@@ -15,7 +15,7 @@ public:
 public:
 	bool		GetIsMoveKeyPressed() const 
 	{
-		return GetIsMoveUpLeftKeyPressed() || GetIsMoveUpRightKeyPressed() || GetIsMoveDownLeftKeyPressed() || GetIsMoveDownRightKeyPressed() ||
+		return /*etIsMoveUpLeftKeyPressed() || GetIsMoveUpRightKeyPressed() || GetIsMoveDownLeftKeyPressed() || GetIsMoveDownRightKeyPressed() ||*/
 			GetIsMoveUpKeyPressed() || GetIsMoveDownKeyPressed() || GetIsMoveLeftKeyPressed() || GetIsMoveRightKeyPressed();
 	}
 	bool		GetIsSkillKeyPressed() const

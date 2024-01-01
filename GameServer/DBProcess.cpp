@@ -1,4 +1,4 @@
-#include "pch.h"
+	#include "pch.h"
 #include "DBProcess.h"
 #include "Region.h"
 #include "Player.h"
@@ -64,11 +64,12 @@ void DBProcess::UpdatePlayerHp(std::shared_ptr<Player> player)
 
 			if (rowCount)
 			{
-				auto region = player->GetRegion();
+				/*auto region = player->GetRegion();
 				if (region)
 					region->OnlyPushJob([hp]() {
 							std::wcout << "Hp Saved : " << hp << std::endl;
 						});
+						*/
 			}
 			//	½ÇÆÐ ½Ã ...?
 			else

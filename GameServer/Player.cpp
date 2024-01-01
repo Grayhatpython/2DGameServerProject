@@ -35,10 +35,33 @@ void Player::OnDead(std::shared_ptr<Actor> attacker)
 	Actor::OnDead(attacker);
 }
 
-void Player::Update()
+void Player::Update(float deltaTime)
 {
 	ASSERT(_fieldOfView);
 	_fieldOfView->Update();
+
+	//	TEMP
+	/*auto state = GetState();
+	if (state == Protocol::AIState::MOVE)
+	{
+		auto forwardSpeed = MOVE_DISTANCE * GetSpeed();
+		Vector2 diff = _movePosition - GetPosition();
+
+		if (Math::NearZero(diff.Length(), forwardSpeed * deltaTime))
+		{
+			SetPosition(_movePosition);
+			_movePosition = {};
+		}
+		else
+		{
+			OutputDebugString(std::to_wstring(diff.Length()).c_str());
+			OutputDebugString(L",");
+			OutputDebugString(std::to_wstring(forwardSpeed * deltaTime).c_str());
+			OutputDebugString(L"\n");
+			auto forwardPosition = Vector2::Normalize(diff) * forwardSpeed * deltaTime;
+			SetPosition(GetPosition() + forwardPosition);
+		}
+	}*/
 }
 
 void Player::Clear()

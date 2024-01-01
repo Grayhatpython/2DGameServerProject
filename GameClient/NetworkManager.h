@@ -30,6 +30,7 @@ public:
 public:
 	bool Initialize();
 	void PrcoessPackets();
+	void FlushSend();
 	void Start();
 	void ConnectToGameServer(const std::wstring& ip, int32 port);
 	void Clear();
@@ -43,11 +44,12 @@ public:
 
 		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(packet);
 		if (serverSession)
-			serverSession->Send(sendBuffer, false);
+			serverSession->Send(sendBuffer);
 	}
 
 	void Send(std::shared_ptr<SendBuffer> sendBuffer);
 	void PushRecvPacket(BYTE* buffer, int32 len);
+	void PositionInfoSend();
 
 public:
 	void							SetServerSession(std::weak_ptr<PacketSession> session) { _serverSession = session; }

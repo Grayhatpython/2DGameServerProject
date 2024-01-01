@@ -8,6 +8,8 @@
 #include "ServerPacketHandler.h"
 #include "ServerSessionManager.h"
 
+#include "MyPlayer.h"
+
 DummyClient* GDummyClient = nullptr;
 
 DummyClient::DummyClient()
@@ -36,7 +38,7 @@ bool DummyClient::Initialize()
 			[]() {
 				return GServerSessionManager->AddServerSession();
 			},	//	TODO : SessionManger
-		300
+		400
 		);
 
 	if (_clientService == nullptr)
@@ -44,6 +46,8 @@ bool DummyClient::Initialize()
 
 	return true;
 }
+
+
 
 void DummyClient::Start()
 {
@@ -59,28 +63,78 @@ void DummyClient::Start()
 			});
 	}
 
-	for (int32 i = 0; i < 1; i++)
-	{
-		std::wstring name = L"FlushSend" + std::to_wstring(i);
-		_workerThreadNames.push_back(name);
-		GThreadManager->Launch(name, []() {
-			auto sessions = GServerSessionManager->GetSessions();
-				for (auto& session : sessions)
-					session->FlushSend();
-				std::this_thread::yield();
-			});
-	}
+	const uint64 moveTick = 7000;
+	uint64 startTick = ::GetTickCount64();
+	uint64 movingTick = 0;
+	auto frameTick = ::GetTickCount64();
+	bool isMoving = false;
 
 	while (true)
 	{
-		SHORT keyState = GetKeyState(VK_F3);
-		bool isToggled = keyState & 1;
-		bool isDown = keyState & 0x8000;
+		while (true)
+		{
+			if (::GetTickCount64() - frameTick >= 33)
+				break;
+		}
 
-		if (isDown)
-			break;
+		auto sessions = GServerSessionManager->GetSessions();
 
-		::Sleep(50);
+		if (::GetTickCount64() - startTick >= moveTick)
+		{
+			startTick = ::GetTickCount64();
+			movingTick = startTick;
+			isMoving = true;
+
+			for (auto& session : sessions)
+			{
+				auto serverSession = std::static_pointer_cast<ServerSession>(session);
+				auto myPlayer = serverSession->GetMyPlayer();
+				if (myPlayer)
+				{
+					auto randomValue = Random::GetIntRange(0, 3);
+					auto moveDir = Protocol::MoveDir(randomValue);
+					auto position = myPlayer->GetPositionInfo();
+					auto forwardPosition = myPlayer->GetForwardPosition(moveDir);
+
+					
+					//Protocol::C_CHANGE_MOVE_DIR changeMoveDirSendPacket;
+					//changeMoveDirSendPacket.set_movedir(movekeyInputDir);
+					//auto moveDirPacketSendBuffer = ServerPacketHandler::MakeSendBuffer(changeMoveDirSendPacket);
+					//GNetworkManager->Send(moveDirPacketSendBuffer);
+
+					Protocol::PositionInfo positionInfo;
+					positionInfo.set_movedir(moveDir);
+					positionInfo.set_positionx(forwardPosition.x);
+					positionInfo.set_positiony(forwardPosition.y);
+					positionInfo.set_state(Protocol::AIState::MOVE);
+					positionInfo.set_usedskillid(0);	//	TODO
+
+					Protocol::C_MOVE movePacket;
+					auto posInfo = movePacket.mutable_positioninfo();
+					posInfo->MergeFrom(positionInfo);
+					auto sendBuffer = ServerPacketHandler::MakeSendBuffer(movePacket);
+					serverSession->Send(sendBuffer);
+
+					myPlayer->SetPositionInfo(positionInfo);
+				}
+			}
+		}
+
+		if (isMoving && ::GetTickCount64() - movingTick >= 300)
+		{
+			isMoving = false;
+			for (auto& session : sessions)
+			{
+				auto serverSession = std::static_pointer_cast<ServerSession>(session);
+				Protocol::C_CHANGE_STATE changeStateSendPacket;
+				changeStateSendPacket.set_state(Protocol::AIState::IDLE);
+				auto sendBuffer = ServerPacketHandler::MakeSendBuffer(changeStateSendPacket);
+				serverSession->Send(sendBuffer);
+			}
+		}
+		
+		for (auto& session : sessions)
+			session->FlushSend();
 	}
 }
 

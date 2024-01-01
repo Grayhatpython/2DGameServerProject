@@ -3,6 +3,7 @@
 #include <crtdbg.h>
 
 #include "Random.h"
+#include "PerformanceCounter.h"
 #include "GameServer.h"
 #include "SocketUtils.h"
 
@@ -13,6 +14,7 @@ int main()
 	std::wcout.imbue(std::locale("korean"));
 	
 	Random::Initialize();
+	PerformanceCounter::Initialize();
 
 	GGlobal = new Global();
 	GGlobal->Initialize();

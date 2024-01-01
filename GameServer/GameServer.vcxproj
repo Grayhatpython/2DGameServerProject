@@ -194,6 +194,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="Projectile.h" />
@@ -202,7 +203,14 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Region.h" />
     <ClInclude Include="RegionManager.h" />
+    <ClInclude Include="RegionProcess.h" />
     <ClInclude Include="Struct.pb.h" />
+    <ClInclude Include="ThreadPool.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Zone.h" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +240,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -245,11 +254,18 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Region.cpp" />
     <ClCompile Include="RegionManager.cpp" />
+    <ClCompile Include="RegionProcess.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Zone.cpp" />
   </ItemGroup>
